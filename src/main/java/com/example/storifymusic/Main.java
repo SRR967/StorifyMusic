@@ -1,17 +1,25 @@
 package com.example.storifymusic;
 
 import model.Reproductor;
+import serializacion.Persistencia;
 
 import java.io.*;
 
 public class Main implements Serializable {
-    public static void main(String[] args) {
-        Reproductor reproductor = new Reproductor();
-        reproductor.crearUser("San","123","san");
+    public static void main(String[] args) throws FileNotFoundException {
+        //Reproductor reproductor = new Reproductor();
+        //reproductor.crearUser("San","123","san");
+
+        //Persistencia.serializar(reproductor);
+        System.out.println("Serializado");
+        Reproductor reproductor1= Persistencia.deserializar();
+        System.out.println("Deserializado");
+
 
         // Serializar objeto
         String filename = "reproductor.ser";
 
+        /*
         try (FileOutputStream fileOut = new FileOutputStream(filename);
              ObjectOutputStream objOut = new ObjectOutputStream(fileOut)) {
 
@@ -33,6 +41,8 @@ public class Main implements Serializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+         */
 
     }
 }
