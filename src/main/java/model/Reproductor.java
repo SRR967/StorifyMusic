@@ -25,12 +25,12 @@ public class Reproductor implements Serializable {
 
         Usuario newUser = new Usuario(nombre,clave,correo);
 
-        if (tablaUsuarios.containsKey(newUser.getUserName())){
-            mostrarMensajeInformacion("El usuario fue creado satisfactoriamente");
+        if (!tablaUsuarios.containsKey(newUser.getUserName())){
+
             tablaUsuarios.put(newUser.getUserName(),newUser);
             return true;
         }else {
-            mostrarMensajeError("Este usuario ya existe");
+
             return false;
         }
 
@@ -62,63 +62,37 @@ public class Reproductor implements Serializable {
 
         if (arbolArtista.estaVacio()) {
             arbolArtista.insertar(art);
-            mostrarMensajeInformacion("El artista ha sido creado");
+
             return true;
         } else if (!arbolArtista.existe(arbolArtista.getRaiz(), art)) {
             arbolArtista.insertar(art);
-            mostrarMensajeInformacion("El artista ha sido creado");
+
             return true;
         } else {
-            mostrarMensajeError("Este artista ya existe");
+
             return false;
         }
 
     }
 
-    public boolean crearCancion(Artista artista,String codigo,String nombreCancion, String nombreAlbum, ImageView caratula,String anio, Genero genero, String URl) {
+    public boolean crearCancion(Artista artista,String codigo,String nombreCancion, String nombreAlbum,String anio, Genero genero, String URl) {
 
-        Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,caratula,anio,genero,URl);
+        Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,URl);
         ListaDoble<Cancion> cancionesArtista = artista.getCancionesArtista();
 
         if (!cancionesArtista.existe(codigo)){
             cancionesArtista.agregarfinal(cancion);
-            mostrarMensajeInformacion("la cancion ha sido creada correctamente");
             return true;
 
         }else {
-            mostrarMensajeError("La cancion no pudo ser agregada");
             return false;
         }
 
     }
 
-    private boolean mostrarMensajeInformacion(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(null);
-        alert.setTitle("Informacion");
-        alert.setContentText(mensaje);
-        Optional<ButtonType> action = alert.showAndWait();
 
-        if (action.get() == ButtonType.OK) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
-    private boolean mostrarMensajeError(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(null);
-        alert.setTitle("Confirmacion");
-        alert.setContentText(mensaje);
-        Optional<ButtonType> action = alert.showAndWait();
 
-        if (action.get() == ButtonType.OK) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public HashMap<String, Usuario> getTablaUsuarios() {
         return tablaUsuarios;

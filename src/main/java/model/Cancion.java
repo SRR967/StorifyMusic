@@ -16,11 +16,10 @@ public class Cancion implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Cancion(String codigo, String nombreCancion, String nombreAlbum, ImageView caratula, String anio, Genero genero, String URL) {
+    public Cancion(String codigo, String nombreCancion, String nombreAlbum, String anio, Genero genero, String URL) {
         this.codigo = codigo;
         this.nombreCancion = nombreCancion;
         this.nombreAlbum = nombreAlbum;
-        Caratula = caratula;
         this.anio = anio;
         this.genero = genero;
         this.URL = URL;
