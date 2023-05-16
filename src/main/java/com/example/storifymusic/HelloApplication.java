@@ -34,6 +34,51 @@ public class HelloApplication extends Application {
         primaryStage.show();
     }
 
+    private void showCrearUsuario() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(HelloApplication.class.getResource("/com/example/storifymusic/CrearUsuarioVista.fxml"));
+        AnchorPane rootLayout = (AnchorPane) loader.load();
+        CrearUsuarioVistaController crearUsuarioVistaController = loader.getController();
+        crearUsuarioVistaController.setAplicacion(this);
+        Scene scene = new Scene(rootLayout);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void showUsuario(String userName) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(HelloApplication.class.getResource("/com/example/storifymusic/UsuarioVista.fxml"));
+        AnchorPane rootLayout = (AnchorPane) loader.load();
+        UsuarioVistaController usuarioVistaController = loader.getController();
+        usuarioVistaController.setUserName(userName);
+        usuarioVistaController.setAplicacion(this);
+        Scene scene = new Scene(rootLayout);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+
+
+    public void ingresarAdmin(String userName, String contrasenia){
+        boolean verificar = reproductor.ingresarAdmin(userName,contrasenia);
+        if (verificar){
+
+        }else {
+
+        }
+
+    }
+
+    public void ingresarUsuario(String userName, String contrasenia){
+        boolean verificar = reproductor.ingresarUser(userName, contrasenia);
+        if (verificar){
+
+        }else {
+
+        }
+    }
+
 
 
     public static void main(String[] args) {

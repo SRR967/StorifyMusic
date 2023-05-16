@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.storifymusic.CrearUsuarioVistaController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <TextField fx:id="txtNomCrear" layoutX="47.0" layoutY="102.0" prefHeight="26.0" prefWidth="174.0" promptText="Nombre" />
+        <Button layoutX="49.0" layoutY="301.0" mnemonicParsing="false" onAction="#CrearUsuario" prefHeight="38.0" prefWidth="181.0" style="-fx-background-color: orange;" text="Registrarse">
+            <font>
+                <Font size="16.0" />
+            </font></Button>
+        <TextField fx:id="txtApellCrear" layoutX="47.0" layoutY="146.0" prefHeight="26.0" prefWidth="174.0" promptText="Apellido" />
+        <TextField fx:id="txtEmailCrear" layoutX="47.0" layoutY="185.0" prefHeight="26.0" prefWidth="174.0" promptText="Correo Electronico" />
+        <ImageView fitHeight="62.0" fitWidth="73.0" layoutX="325.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="/imagenes/26834.png" />
+            </image>
+        </ImageView>
+        <Label layoutX="21.0" layoutY="37.0" prefHeight="35.0" prefWidth="233.0" text="Resgistro de Usuario ">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Button layoutX="323.0" layoutY="301.0" mnemonicParsing="false" onAction="#Atras" prefHeight="37.0" prefWidth="84.0" style="-fx-background-color: orange;" text="Volver">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Button>
+        <Label layoutX="282.0" layoutY="167.0" prefHeight="35.0" prefWidth="148.0" text="Storify Music">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <PasswordField fx:id="passContra" layoutX="47.0" layoutY="227.0" prefHeight="26.0" prefWidth="174.0" promptText="Contraseña" />
+    </children>
+
+</AnchorPane>

@@ -24,13 +24,15 @@ public class LoginVistaController {
         String usuario = txtUsuario.getText();
         String contrasena = txtPassw.getText();
         if (usuario.equals("admin") && contrasena.equals("admin")) {
-           // aplicacion.ingresarAdmin(usuario, contrasena);
+           aplicacion.ingresarAdmin(usuario, contrasena);
         } else {
-           // aplicacion.ingresarUsuario(usuario, contrasena);
+            aplicacion.ingresarUsuario(usuario, contrasena);
         }
 
     }
 
-    public void crearUsu(ActionEvent actionEvent) {
+    @FXML
+    public void crearUsuario(ActionEvent actionEvent) {
+
     }
 }
