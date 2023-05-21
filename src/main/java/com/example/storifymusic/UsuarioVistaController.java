@@ -12,10 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Cancion;
 import model.Usuario;
-
-
-
-
+import model.YoutubePlayer;
 
 
 public class UsuarioVistaController {
@@ -64,6 +61,9 @@ public class UsuarioVistaController {
 
     @FXML
     public void reproducir(ActionEvent actionEvent){
+        YoutubePlayer youtubePlayer = new YoutubePlayer();
+        Stage stage = new Stage();
+        youtubePlayer.start(stage);
 
     }
 
