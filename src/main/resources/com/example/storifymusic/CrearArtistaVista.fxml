@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="404.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.storifymusic.CrearArtistaVistaController">
+   <children>
+      <Pane layoutX="378.0" layoutY="-6.0" prefHeight="410.0" prefWidth="222.0">
+         <children>
+            <RadioButton fx:id="opSolista" layoutX="24.0" layoutY="73.0" mnemonicParsing="false" text="Solista">
+               <toggleGroup>
+                  <ToggleGroup fx:id="tipoArtista" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="opGrupo" layoutX="24.0" layoutY="99.0" mnemonicParsing="false" text="Grupo" toggleGroup="$tipoArtista" />
+            <ComboBox fx:id="cbGenero" layoutX="14.0" layoutY="193.0" prefWidth="150.0" />
+         </children></Pane>
+      <TextField fx:id="txtArtista" layoutX="46.0" layoutY="114.0" promptText="Nombre Artista" />
+      <TextField fx:id="txtNacionalidad" layoutX="47.0" layoutY="154.0" promptText="Nacionalidad" />
+      <TextField fx:id="txtCodigo" layoutX="47.0" layoutY="75.0" promptText="Codigo" />
+      <Button fx:id="bttDevolver" layoutX="79.0" layoutY="329.0" mnemonicParsing="false" text="Atras" />
+      <Button fx:id="bttAgregar" layoutX="156.0" layoutY="329.0" mnemonicParsing="false" onAction="#crearArtista" text="Agregar" />
+   </children>
+</AnchorPane>

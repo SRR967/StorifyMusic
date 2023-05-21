@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.Genero;
 import model.Reproductor;
 import serializacion.Persistencia;
 
@@ -34,7 +35,7 @@ public class HelloApplication extends Application {
         primaryStage.show();
     }
 
-    private void showCrearUsuario() throws IOException {
+    public void showCrearUsuario() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(HelloApplication.class.getResource("/com/example/storifymusic/CrearUsuarioVista.fxml"));
         AnchorPane rootLayout = (AnchorPane) loader.load();
@@ -51,37 +52,98 @@ public class HelloApplication extends Application {
         loader.setLocation(HelloApplication.class.getResource("/com/example/storifymusic/UsuarioVista.fxml"));
         AnchorPane rootLayout = (AnchorPane) loader.load();
         UsuarioVistaController usuarioVistaController = loader.getController();
-        usuarioVistaController.setUserName(userName);
+        usuarioVistaController.setUserName(reproductor.getTablaUsuarios().get(userName));
         usuarioVistaController.setAplicacion(this);
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
+    public void showAdminView() throws IOException {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(HelloApplication.class.getResource("/com/example/storifymusic/AdminVista.fxml"));
+        AnchorPane rootLayout = (AnchorPane) loader.load();
+        AdminVistaController adminVistaController = loader.getController();
+        adminVistaController.setAplicacion(this);
+        Scene scene = new Scene(rootLayout);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void showCrearArtistaView() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(HelloApplication.class.getResource("/com/example/storifymusic/CrearArtistaVista.fxml"));
+            AnchorPane rootLayout = (AnchorPane) loader.load();
+            CrearArtistaVistaController crearArtistaVistaController = loader.getController();
+            crearArtistaVistaController.setAplicacion(this);
+            Scene scene = new Scene(rootLayout);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showArtista(){
+        showCrearArtistaView();
+
+    }
+
+    public void devolverLogin() throws IOException {
+        showLogin();
+    }
 
 
-    public void ingresarAdmin(String userName, String contrasenia){
+
+
+
+    public void ingresarAdmin(String userName, String contrasenia) throws IOException {
         boolean verificar = reproductor.ingresarAdmin(userName,contrasenia);
         if (verificar){
-
+            showAdminView();
         }else {
-
+            //Mostrar error
         }
 
     }
 
-    public void ingresarUsuario(String userName, String contrasenia){
+    public void ingresarUsuario(String userName, String contrasenia) throws IOException {
         boolean verificar = reproductor.ingresarUser(userName, contrasenia);
         if (verificar){
-
+            showUsuario(userName);
         }else {
-
+            //Mostrar mensaje
         }
+    }
+
+    public void crearUsuario(String nombre, String clave, String correo) throws IOException {
+        boolean verify = reproductor.crearUser(nombre, clave, correo);
+        if (verify) {
+            Persistencia.serializar(reproductor);
+            showLogin();
+        } else {
+            System.out.println("El usuario ya existe");
+            //mostrarMensajeError("El usuario no puede ser creado");
+        }
+
     }
 
 
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public void crearArtista(String nombre, String nacionalidad, String codigo, Boolean isGrupo) throws IOException {
+        boolean verify = reproductor.crearArtista(nombre,nacionalidad,codigo,isGrupo);
+        if (verify){
+            System.out.println("Se creo el artista");
+            Persistencia.serializar(reproductor);
+            showAdminView();
+        }else {
+            System.out.println("Error");
+        }
     }
 }

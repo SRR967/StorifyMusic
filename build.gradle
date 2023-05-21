@@ -10,6 +10,7 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven { url = 'https://europe-maven.pkg.dev/jxbrowser/releases' }
 }
 
 ext {
@@ -30,13 +31,20 @@ application {
 
 javafx {
     version = '17.0.1'
-    modules = ['javafx.controls', 'javafx.fxml']
+    modules = ['javafx.controls', 'javafx.fxml','javafx.media', 'javafx.web']
 }
 
 dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    implementation 'org.openjfx:javafx-base:19.0.2.1'
+    implementation 'org.openjfx:javafx-controls:19.0.2.1'
+    implementation 'org.openjfx:javafx-media:19.0.2.1'
+    implementation 'org.openjfx:javafx-graphics:19.0.2.1'
+    implementation 'org.openjfx:javafx-web:19.0.2.1'
+
 }
 
 test {

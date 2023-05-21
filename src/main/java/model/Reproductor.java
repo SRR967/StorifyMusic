@@ -3,6 +3,7 @@ package model;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.ImageView;
+import serializacion.Persistencia;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -21,6 +22,18 @@ public class Reproductor implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public Reproductor() {
+        quemarDatosAdmin();
+    }
+
+    private void quemarDatosAdmin() {
+        // TODO Auto-generated method stub
+        Administrador admin1 = new Administrador("admin", "admin");
+        tablaAdmin.put("admin", admin1);
+
+
+    }
+
     public boolean crearUser(String nombre, String clave, String correo) {
 
         Usuario newUser = new Usuario(nombre,clave,correo);
@@ -30,7 +43,7 @@ public class Reproductor implements Serializable {
             tablaUsuarios.put(newUser.getUserName(),newUser);
             return true;
         }else {
-
+            System.out.println("Usuario ya existe");
             return false;
         }
 
@@ -40,8 +53,10 @@ public class Reproductor implements Serializable {
 
         Usuario user = tablaUsuarios.get(userName);
         if (user != null && user.getContrasenia().equals(contrasenia)) {
+            System.out.println("true");
             return true;
         } else {
+            System.out.println("False");
             return false;
         }
     }
@@ -64,12 +79,13 @@ public class Reproductor implements Serializable {
             arbolArtista.insertar(art);
 
             return true;
-        } else if (!arbolArtista.existe(arbolArtista.getRaiz(), art)) {
+        } else if (!(arbolArtista.existe(arbolArtista.getRaiz(), art)) && !existeNombreArtista(arbolArtista,nombre) ) {
             arbolArtista.insertar(art);
+            System.out.println("Se inserto el artista");
 
             return true;
         } else {
-
+            System.out.println("Artista ya existe");
             return false;
         }
 
@@ -91,7 +107,25 @@ public class Reproductor implements Serializable {
     }
 
 
+    public  boolean existeNombreArtista(ArbolBinario<Artista> arbol,String nombre) {
+        return existeNombreArtista(arbol.getRaiz(),nombre);
+    }
 
+    private boolean existeNombreArtista(NodoArbol<Artista> raiz, String nombre){
+        if (raiz == null) {
+            return false;
+        }
+
+        Artista artista = raiz.getElemento();
+        if (artista.getNombre().equals(nombre)) {
+            return true;
+        }
+
+        boolean izquierda = existeNombreArtista(raiz.getIzquierdo(), nombre);
+        boolean derecha = existeNombreArtista(raiz.getDerecho(), nombre);
+
+        return izquierda || derecha;
+    }
 
 
     public HashMap<String, Usuario> getTablaUsuarios() {

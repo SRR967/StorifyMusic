@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.storifymusic.UsuarioVistaController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.storifymusic.UsuarioVistaController">
+   <children>
+      <TableView fx:id="tblCancionesUsuario" layoutX="125.0" layoutY="41.0" prefHeight="200.0" prefWidth="448.0">
+        <columns>
+          <TableColumn fx:id="colFavorito" prefWidth="75.0" text="Favorito" />
+          <TableColumn fx:id="colImage" prefWidth="75.0" text="Imagen" />
+            <TableColumn fx:id="colTitulo" prefWidth="75.0" text="Titulo" />
+            <TableColumn fx:id="colArtista" prefWidth="75.0" text="Artista" />
+            <TableColumn fx:id="colAlbum" prefWidth="75.0" text="Album" />
+            <TableColumn fx:id="colDuracion" prefWidth="75.0" text="Duracion" />
+        </columns>
+      </TableView>
+      <Button layoutX="44.0" layoutY="316.0" mnemonicParsing="false" onAction="#reproducir" text="Reproducir cancion" />
+   </children>
 </AnchorPane>

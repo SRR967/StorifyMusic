@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
+
 public class LoginVistaController {
     HelloApplication aplicacion;
 
@@ -19,20 +21,24 @@ public class LoginVistaController {
     }
 
     @FXML
-    void ingresar(ActionEvent event) {
+    void ingresar(ActionEvent event) throws IOException {
 
         String usuario = txtUsuario.getText();
+        System.out.println(usuario);
         String contrasena = txtPassw.getText();
+        System.out.println(contrasena);
         if (usuario.equals("admin") && contrasena.equals("admin")) {
            aplicacion.ingresarAdmin(usuario, contrasena);
         } else {
+            System.out.println("Usuario");
             aplicacion.ingresarUsuario(usuario, contrasena);
         }
 
     }
 
     @FXML
-    public void crearUsuario(ActionEvent actionEvent) {
+    public void crearUsuario(ActionEvent actionEvent) throws IOException {
+        aplicacion.showCrearUsuario();
 
     }
 }
