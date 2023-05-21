@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.storifymusic.LoginVistaController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <TextField fx:id="txtUsuario" layoutX="40.0" layoutY="128.0" promptText="Usuario" />
+        <PasswordField fx:id="txtPassw" layoutX="39.0" layoutY="174.0" promptText="Contraseña" />
+        <Button layoutX="40.0" layoutY="226.0" mnemonicParsing="false" onAction="#ingresar" prefHeight="26.0" prefWidth="150.0" text="Iniciar" />
+        <Button layoutX="70.0" layoutY="351.0" mnemonicParsing="false" onAction="#crearUsuario" prefHeight="26.0" prefWidth="90.0" text="Registrarse" />
+        <Pane layoutX="241.0" prefHeight="400.0" prefWidth="360.0" style="-fx-background-color: Gray;">
+            <children>
+                <ImageView fitHeight="228.0" fitWidth="196.0" layoutX="91.0" layoutY="159.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="/imagenes/26834.png" />
+                    </image>
+                </ImageView>
+                <Label layoutX="14.0" layoutY="25.0" text="Music" textFill="WHITE">
+                    <font>
+                        <Font size="48.0" />
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+        <Label layoutX="50.0" layoutY="21.0" prefHeight="69.0" prefWidth="182.0" text="Storify">
+            <font>
+                <Font size="48.0" />
+            </font>
+        </Label>
+        <Separator layoutX="15.0" layoutY="279.0" prefWidth="200.0" />
+        <Label layoutX="53.0" layoutY="301.0" text="Si aún no tienes cuenta" />
+        <Label layoutX="71.0" layoutY="327.0" text="Registrate Aquí" />
+    </children>
+
+
+</AnchorPane>

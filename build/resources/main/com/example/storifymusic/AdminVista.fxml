@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.storifymusic.AdminVistaController">
+   <children>
+      <Button layoutX="542.0" layoutY="360.0" mnemonicParsing="false" onAction="#devolver" text="Atras" />
+      <Label alignment="CENTER" layoutX="240.0" layoutY="26.0" text="Administrador">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Button layoutX="24.0" layoutY="121.0" mnemonicParsing="false" onAction="#crearArtista" text="Crear artista" />
+      <Button layoutX="24.0" layoutY="79.0" mnemonicParsing="false" text="Agregar Cancion" />
+   </children>
+</AnchorPane>
