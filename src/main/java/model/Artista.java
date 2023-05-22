@@ -4,17 +4,17 @@ import java.io.Serializable;
 
 public class Artista implements Comparable<Artista>,Serializable {
 
-    private String codigo;
     private String nombre;
+    private String codigo;
     private String nacionalidad;
     private boolean isGrupo;
     private ListaDoble<Cancion> cancionesArtista;
 
     private static final long serialVersionUID = 1L;
 
-    public Artista(String codigo, String nombre, String nacionalidad, boolean isGrupo) {
-        this.codigo = codigo;
+    public Artista(String nombre, String codigo,String nacionalidad, boolean isGrupo) {
         this.nombre = nombre;
+        this.codigo = codigo;
         this.nacionalidad = nacionalidad;
         this.isGrupo = isGrupo;
     }
@@ -24,7 +24,7 @@ public class Artista implements Comparable<Artista>,Serializable {
 
     @Override
     public String toString() {
-        return " " + codigo + "\n";
+        return " " + nombre + "\n";
     }
     @Override
     public int compareTo(Artista o) {

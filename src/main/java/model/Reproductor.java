@@ -1,19 +1,15 @@
 package model;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.image.ImageView;
-import serializacion.Persistencia;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Optional;
+
 
 public class Reproductor implements Serializable {
 
     private HashMap<String,Usuario> tablaUsuarios = new HashMap<>();
     private HashMap<String,Administrador> tablaAdmin = new HashMap<>();
-
     private ArbolBinario<Artista> arbolArtista = new ArbolBinario<>();
 
     private ListaSimple<Artista> artistaInterfaz= new ListaSimple<>();
@@ -32,6 +28,14 @@ public class Reproductor implements Serializable {
         tablaAdmin.put("admin", admin1);
 
 
+    }
+
+    public Memento crearMemento() throws IOException, ClassNotFoundException {
+        return new Memento(tablaUsuarios);
+    }
+
+    public void restaurarDesdeMemento(Memento memento) {
+        tablaUsuarios = new HashMap<>(memento.getTablaUsuarios());
     }
 
     public boolean crearUser(String nombre, String clave, String correo) {
@@ -93,7 +97,7 @@ public class Reproductor implements Serializable {
 
     public boolean crearCancion(Artista artista,String codigo,String nombreCancion, String nombreAlbum,String anio, Genero genero, String URl) {
 
-        Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,URl);
+        Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,URl,artista);
         ListaDoble<Cancion> cancionesArtista = artista.getCancionesArtista();
 
         if (!cancionesArtista.existe(codigo)){

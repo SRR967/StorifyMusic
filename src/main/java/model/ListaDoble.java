@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ListaDoble <T> implements Iterable<T>, Serializable {
@@ -45,6 +46,16 @@ public class ListaDoble <T> implements Iterable<T>, Serializable {
         }
 
         tamanio++;
+    }
+
+    public ArrayList<T> getAll() {
+        ArrayList<T> allItems = new ArrayList<>();
+        NodoLista<T> current = nodoPrimero;
+        while (current != null) {
+            allItems.add(current.getDato());
+            current = current.getSiguiente();
+        }
+        return allItems;
     }
 
     //Obtener Nodo el valor de un Nodo

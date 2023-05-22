@@ -5,7 +5,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.storifymusic.UsuarioVistaController">
    <children>
-      <TableView fx:id="tblCancionesUsuario" layoutX="125.0" layoutY="41.0" prefHeight="200.0" prefWidth="448.0">
+      <TableView fx:id="tblCancionesUsuario" layoutX="25.0" layoutY="57.0" prefHeight="200.0" prefWidth="448.0">
         <columns>
           <TableColumn fx:id="colFavorito" prefWidth="75.0" text="Favorito" />
           <TableColumn fx:id="colImage" prefWidth="75.0" text="Imagen" />

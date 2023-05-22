@@ -13,16 +13,24 @@ public class Cancion implements Serializable {
     private String anio;
     private Genero genero;
     private String URL;
+    private Artista artista;
 
     private static final long serialVersionUID = 1L;
 
-    public Cancion(String codigo, String nombreCancion, String nombreAlbum, String anio, Genero genero, String URL) {
+    public Cancion(String codigo, String nombreCancion, String nombreAlbum, String anio, Genero genero, String URL, Artista artista) {
         this.codigo = codigo;
         this.nombreCancion = nombreCancion;
         this.nombreAlbum = nombreAlbum;
         this.anio = anio;
         this.genero = genero;
         this.URL = URL;
+        this.artista = artista;
+    }
+
+    public Cancion(String codigo, String nombreCancion, Artista artista) {
+        this.codigo = codigo;
+        this.nombreCancion = nombreCancion;
+        this.artista = artista;
     }
 
     public String getCodigo() {
@@ -79,5 +87,13 @@ public class Cancion implements Serializable {
 
     public void setURL(String URL) {
         this.URL = URL;
+    }
+
+    public Artista getArtista() {
+        return artista;
+    }
+
+    public void setArtista(Artista artista) {
+        this.artista = artista;
     }
 }

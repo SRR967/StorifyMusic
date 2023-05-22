@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.function.Consumer;
 
 public class ArbolBinario <T extends Comparable<T>> implements Serializable {
 
@@ -33,7 +34,6 @@ public class ArbolBinario <T extends Comparable<T>> implements Serializable {
 
         return nodo;
     }
-
     /**
      * Realiza el recorrido inorden en el arbol
      */

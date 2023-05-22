@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 
 
-
 public class YoutubePlayer extends Application {
     private static final String YOUTUBE_VIDEO_ID = "Q5CL1b-FD9E";
 

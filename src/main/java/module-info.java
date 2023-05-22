@@ -10,4 +10,5 @@ module com.example.storifymusic {
 
     opens com.example.storifymusic to javafx.fxml;
     exports com.example.storifymusic;
+    opens model to javafx.fxml;
 }

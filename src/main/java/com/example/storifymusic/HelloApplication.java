@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.ArbolBinario;
+import model.Artista;
 import model.Genero;
 import model.Reproductor;
 import serializacion.Persistencia;
@@ -15,6 +17,10 @@ public class HelloApplication extends Application {
 
     private Reproductor reproductor = Persistencia.deserializar();
     private Stage primaryStage;
+
+    public static void main(String[] args) {
+        launch();
+    }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -130,12 +136,6 @@ public class HelloApplication extends Application {
 
     }
 
-
-
-    public static void main(String[] args) {
-        launch();
-    }
-
     public void crearArtista(String nombre, String nacionalidad, String codigo, Boolean isGrupo) throws IOException {
         boolean verify = reproductor.crearArtista(nombre,nacionalidad,codigo,isGrupo);
         if (verify){
@@ -145,5 +145,9 @@ public class HelloApplication extends Application {
         }else {
             System.out.println("Error");
         }
+    }
+
+    public ArbolBinario<Artista> getArtistas(){
+        return reproductor.getArbolArtista();
     }
 }
