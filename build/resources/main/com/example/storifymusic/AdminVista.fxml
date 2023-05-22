@@ -12,7 +12,15 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Button layoutX="24.0" layoutY="121.0" mnemonicParsing="false" onAction="#crearArtista" text="Crear artista" />
-      <Button layoutX="24.0" layoutY="79.0" mnemonicParsing="false" text="Agregar Cancion" />
+      <Button layoutX="337.0" layoutY="360.0" mnemonicParsing="false" onAction="#crearArtista" text="Crear artista" />
+      <Button layoutX="424.0" layoutY="360.0" mnemonicParsing="false" onAction="#crearCancion" text="Agregar Cancion" />
+      <TableView fx:id="tblArtistas" layoutX="14.0" layoutY="80.0" prefHeight="200.0" prefWidth="306.0">
+        <columns>
+          <TableColumn fx:id="colCodigo" prefWidth="75.0" text="Codigo" />
+          <TableColumn fx:id="colNombre" prefWidth="75.0" text="Nombre" />
+            <TableColumn fx:id="colNacionalidad" prefWidth="75.0" text="Nacionalida" />
+            <TableColumn fx:id="colGrupo" prefWidth="75.0" text="IsGrupo" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

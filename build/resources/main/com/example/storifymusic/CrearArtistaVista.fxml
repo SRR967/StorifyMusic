@@ -17,7 +17,7 @@
       <TextField fx:id="txtArtista" layoutX="46.0" layoutY="114.0" promptText="Nombre Artista" />
       <TextField fx:id="txtNacionalidad" layoutX="47.0" layoutY="154.0" promptText="Nacionalidad" />
       <TextField fx:id="txtCodigo" layoutX="47.0" layoutY="75.0" promptText="Codigo" />
-      <Button fx:id="bttDevolver" layoutX="79.0" layoutY="329.0" mnemonicParsing="false" text="Atras" />
+      <Button fx:id="bttDevolver" layoutX="79.0" layoutY="329.0" mnemonicParsing="false" onAction="#devolver" text="Atras" />
       <Button fx:id="bttAgregar" layoutX="156.0" layoutY="329.0" mnemonicParsing="false" onAction="#crearArtista" text="Agregar" />
    </children>
 </AnchorPane>

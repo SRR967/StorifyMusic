@@ -5,13 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.ArbolBinario;
-import model.Artista;
-import model.Genero;
-import model.Reproductor;
+import model.*;
 import serializacion.Persistencia;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 public class HelloApplication extends Application {
 
@@ -92,18 +90,63 @@ public class HelloApplication extends Application {
         }
     }
 
+    public void showCrearCancion() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(HelloApplication.class.getResource("/com/example/storifymusic/CrearCancionVista.fxml"));
+            AnchorPane rootLayout = (AnchorPane) loader.load();
+            CrearCancionVistaController crearCancionVistaController = loader.getController();
+            crearCancionVistaController.setAplicacion(this);
+            Scene scene = new Scene(rootLayout);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void crearCancion(String nombre, String album, String uRL, Artista artista, String codigo, Genero genero,
+                             String duracion, String anio) throws IOException {
+        boolean verify = reproductor.crearCancion(artista,codigo,nombre,album,anio,genero,uRL,duracion);
+
+        if (verify) {
+            Persistencia.serializar(reproductor);
+            showAdminView();
+        } else {
+            System.out.println("Error con los datos");
+        }
+
+    }
+
+
+    public void inOrderTraversal(ArbolBinario<Artista> arbol, Consumer<Artista> action) {
+        inOrderTraversal(arbol.getRaiz(), action);
+    }
+
+    private void inOrderTraversal(NodoArbol<Artista> node, Consumer<Artista> action) {
+        if (node != null) {
+            inOrderTraversal(node.getIzquierdo(), action);
+            action.accept(node.getElemento());
+            inOrderTraversal(node.getDerecho(), action);
+        }
+    }
+
     public void showArtista(){
         showCrearArtistaView();
 
+    }
+
+    public void showCancion(){
+        showCrearCancion();
     }
 
     public void devolverLogin() throws IOException {
         showLogin();
     }
 
-
-
-
+    public void devolverInicio() throws IOException {
+        showAdminView();
+    }
 
     public void ingresarAdmin(String userName, String contrasenia) throws IOException {
         boolean verificar = reproductor.ingresarAdmin(userName,contrasenia);
@@ -150,4 +193,6 @@ public class HelloApplication extends Application {
     public ArbolBinario<Artista> getArtistas(){
         return reproductor.getArbolArtista();
     }
+
+
 }

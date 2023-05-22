@@ -7,7 +7,7 @@ public class Artista implements Comparable<Artista>,Serializable {
     private String nombre;
     private String codigo;
     private String nacionalidad;
-    private boolean isGrupo;
+    private boolean grupo;
     private ListaDoble<Cancion> cancionesArtista;
 
     private static final long serialVersionUID = 1L;
@@ -16,7 +16,7 @@ public class Artista implements Comparable<Artista>,Serializable {
         this.nombre = nombre;
         this.codigo = codigo;
         this.nacionalidad = nacionalidad;
-        this.isGrupo = isGrupo;
+        this.grupo = isGrupo;
     }
 
     public Artista() {
@@ -61,12 +61,13 @@ public class Artista implements Comparable<Artista>,Serializable {
         this.nacionalidad = nacionalidad;
     }
 
+
     public boolean isGrupo() {
-        return isGrupo;
+        return grupo;
     }
 
     public void setGrupo(boolean grupo) {
-        isGrupo = grupo;
+        this.grupo = grupo;
     }
 
     public ListaDoble<Cancion> getCancionesArtista() {

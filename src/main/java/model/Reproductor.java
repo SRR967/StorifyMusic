@@ -77,7 +77,7 @@ public class Reproductor implements Serializable {
 
     public boolean crearArtista(String nombre, String nacionalidad, String codigo, boolean duo) {
 
-        Artista art = new Artista(codigo,nombre,nacionalidad,duo);
+        Artista art = new Artista(nombre,codigo,nacionalidad,duo);
 
         if (arbolArtista.estaVacio()) {
             arbolArtista.insertar(art);
@@ -95,9 +95,10 @@ public class Reproductor implements Serializable {
 
     }
 
-    public boolean crearCancion(Artista artista,String codigo,String nombreCancion, String nombreAlbum,String anio, Genero genero, String URl) {
+    public boolean crearCancion(Artista artista,String codigo,String nombreCancion, String nombreAlbum,String anio,
+                                Genero genero, String URl, String duracion) {
 
-        Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,URl,artista);
+        Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,URl,artista,duracion);
         ListaDoble<Cancion> cancionesArtista = artista.getCancionesArtista();
 
         if (!cancionesArtista.existe(codigo)){

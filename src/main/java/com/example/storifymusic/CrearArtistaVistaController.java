@@ -37,8 +37,6 @@ public class CrearArtistaVistaController {
     @FXML
     private ToggleGroup tipoArtista;
 
-
-
     public void setAplicacion(HelloApplication aplicacion) {
         this.aplicacion = aplicacion;
     }
@@ -56,14 +54,16 @@ public class CrearArtistaVistaController {
             isGrupo = true;
         }
 
-
-        if ( (tipoArtista.getSelectedToggle() != null) && !nombre.equals("") && !nacionalidad.equals("") && !codigo.equals("") ){
+        if ( (!opGrupo.isSelected() && !opSolista.isSelected()) || nombre.equals("") || nacionalidad.equals("") || codigo.equals("") ){
             System.out.println("Llene todos los campos");
         }else {
             aplicacion.crearArtista(nombre, nacionalidad,codigo,isGrupo);
         }
+    }
 
-
+    @FXML
+    public void devolver(ActionEvent event) throws IOException {
+        aplicacion.devolverInicio();
     }
 
 

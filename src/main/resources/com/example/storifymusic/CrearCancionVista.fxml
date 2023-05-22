@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.storifymusic.CrearCancionVistaController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.storifymusic.CrearCancionVistaController">
+   <children>
+      <Pane layoutX="361.0" layoutY="-6.0" prefHeight="406.0" prefWidth="239.0">
+         <children>
+            <RadioButton fx:id="opRock" layoutX="14.0" layoutY="134.0" mnemonicParsing="false" text="Rock">
+               <toggleGroup>
+                  <ToggleGroup fx:id="tipoCancion" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="opPop" layoutX="14.0" layoutY="161.0" mnemonicParsing="false" text="Pop" toggleGroup="$tipoCancion" />
+            <RadioButton fx:id="opPunk" layoutX="14.0" layoutY="186.0" mnemonicParsing="false" text="Punk" toggleGroup="$tipoCancion" />
+            <RadioButton fx:id="opReggaeton" layoutX="14.0" layoutY="214.0" mnemonicParsing="false" text="Reggaeton" toggleGroup="$tipoCancion" />
+            <RadioButton fx:id="opElectronica" layoutX="14.0" layoutY="239.0" mnemonicParsing="false" text="Electronica" toggleGroup="$tipoCancion" />
+         </children>
+      </Pane>
+      <Label layoutX="72.0" layoutY="71.0" text="Crear Cancion" />
+      <ComboBox fx:id="cmbArtista" layoutX="71.0" layoutY="124.0" prefWidth="150.0" />
+      <TextField fx:id="txtNombre" layoutX="72.0" layoutY="163.0" promptText="Nombre" />
+      <TextField fx:id="txtCodigo" layoutX="73.0" layoutY="197.0" promptText="Codigo" />
+      <TextField fx:id="txtNombreAlbum" layoutX="73.0" layoutY="233.0" promptText="Nombre Album" />
+      <TextField fx:id="txtAnio" layoutX="73.0" layoutY="268.0" promptText="Año" />
+      <TextField fx:id="txtDuracion" layoutX="73.0" layoutY="304.0" promptText="Duracion" />
+      <TextField fx:id="txtUrl" layoutX="73.0" layoutY="344.0" promptText="URL" />
+      <Button fx:id="crearCancion" layoutX="248.0" layoutY="344.0" mnemonicParsing="false" onAction="#crearCancion" text="Agregar" />
+      <Button layoutX="307.0" layoutY="344.0" mnemonicParsing="false" onAction="#devolver" text="Atras" />
+   </children>
 </AnchorPane>
