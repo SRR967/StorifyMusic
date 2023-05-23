@@ -8,7 +8,7 @@ public class Artista implements Comparable<Artista>,Serializable {
     private String codigo;
     private String nacionalidad;
     private boolean grupo;
-    private ListaDoble<Cancion> cancionesArtista;
+    private ListaDoble<Cancion> cancionesArtista = new ListaDoble<>();
 
     private static final long serialVersionUID = 1L;
 

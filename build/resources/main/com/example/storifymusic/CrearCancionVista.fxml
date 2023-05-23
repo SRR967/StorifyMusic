@@ -25,7 +25,7 @@
       <TextField fx:id="txtAnio" layoutX="73.0" layoutY="268.0" promptText="Año" />
       <TextField fx:id="txtDuracion" layoutX="73.0" layoutY="304.0" promptText="Duracion" />
       <TextField fx:id="txtUrl" layoutX="73.0" layoutY="344.0" promptText="URL" />
-      <Button fx:id="crearCancion" layoutX="248.0" layoutY="344.0" mnemonicParsing="false" text="Agregar" />
+      <Button fx:id="crearCancion" layoutX="248.0" layoutY="344.0" mnemonicParsing="false" onAction="#crearCancion" text="Agregar" />
       <Button layoutX="307.0" layoutY="344.0" mnemonicParsing="false" onAction="#devolver" text="Atras" />
    </children>
 </AnchorPane>

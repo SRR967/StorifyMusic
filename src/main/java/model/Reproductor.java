@@ -1,6 +1,9 @@
 package model;
 
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -99,6 +102,9 @@ public class Reproductor implements Serializable {
                                 Genero genero, String URl, String duracion) {
 
         Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,URl,artista,duracion);
+        YoutubeImage youtubeImage= new YoutubeImage(URl,nombreCancion);
+        youtubeImage.instancia();
+        asignarImagen(cancion);
         ListaDoble<Cancion> cancionesArtista = artista.getCancionesArtista();
 
         if (!cancionesArtista.existe(codigo)){
@@ -109,6 +115,10 @@ public class Reproductor implements Serializable {
             return false;
         }
 
+    }
+    public void asignarImagen(Cancion cancion){
+        Image image = new Image("imagenes/"+cancion.getNombreCancion()+".png");
+        cancion.setCaratula(new ImageView(image));
     }
 
 
