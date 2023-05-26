@@ -6,12 +6,15 @@ import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.view.javafx.BrowserView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -29,8 +32,9 @@ public class UsuarioVistaController {
     private Usuario userName;
     private Cancion cancionSeleccionadaTodas;
     private Cancion cancionSeleccionadaMias;
-    private ObservableList<Cancion> listaCancionesArtistas;
-    private ObservableList<Cancion> listaCancionesUsuario;
+    private ObservableList<Cancion> listaCancionesArtistas= FXCollections.observableArrayList();
+    private ObservableList<Cancion> listaCancionesUsuario= FXCollections.observableArrayList();
+    private FilteredList<Cancion> filteredCancionData;
 
     @FXML
     private Label lblUsuario;
@@ -69,6 +73,9 @@ public class UsuarioVistaController {
     @FXML
     private TableColumn<String,Cancion> colDuracionUsuario;
 
+    @FXML
+    private TextField txtBuscarCancion;
+
 
     public void setUserName(Usuario userName) {
         this.userName = userName;
@@ -79,13 +86,20 @@ public class UsuarioVistaController {
         this.aplicacion = aplicacion;
         lblUsuario.setText(userName.getUserName());
 
+        //llenar tabla canciones de la tienda
+        tblCancionesTodas.getItems().clear();
         ArbolBinario<Artista> artistas= aplicacion.getArtistas();
-        listaCancionesArtistas = FXCollections.observableArrayList();
         inOrderTraversal(artistas,artista -> listaCancionesArtistas.addAll(artista.getCancionesArtista().getAll()));
         tblCancionesTodas.setItems(listaCancionesArtistas);
 
+        // Para filtrar las canciones segun el parametro
+        SortedList<Cancion> sortedCancionData = new SortedList<>(filteredCancionData);
+        sortedCancionData.comparatorProperty().bind(tblCancionesTodas.comparatorProperty());
+        tblCancionesTodas.setItems(sortedCancionData);
+
+        //llenar tabla canciones usuario
+        tblCancionesUsuario.getItems().clear();
         ListaDobleCircular<Cancion> cancionesUsuario = userName.getListaCanciones();
-        listaCancionesUsuario = FXCollections.observableArrayList();
         agregarCancionesMias(cancionesUsuario);
         tblCancionesUsuario.setItems(listaCancionesUsuario);
 
@@ -94,42 +108,50 @@ public class UsuarioVistaController {
     @FXML
     public void initialize(){
 
-        /*
-        listaCancionesUsuario = FXCollections.observableArrayList(new Cancion("01","mor"));
-        colTitulo.setCellValueFactory(new PropertyValueFactory<>("nombreCancion"));
-        tblCancionesUsuario.setItems(listaCancionesUsuario);
-
-
-        Artista artista1 = new Artista("Feid","01","Colombiano",false);
-        Cancion cancion = new Cancion("01","Ferxxo 100", artista1);
-        ListaDoble<Cancion> listaDoble= new ListaDoble<>();
-        listaDoble.agregarInicio(cancion);
-        artista1.setCancionesArtista(listaDoble);
-
-        ArbolBinario <Artista> artistas= new ArbolBinario<>();
-        artistas.insertar(artista1);
-
-        listaCancionesUsuario = FXCollections.observableArrayList();
-        //ArbolBinario<Artista> artistas= aplicacion.getArtistas();
-        inOrderTraversal(artistas,artista -> listaCancionesUsuario.addAll(artista.getCancionesArtista().getAll()));
-
-
-         */
-
-
         colTituloTodas.setCellValueFactory(new PropertyValueFactory<>("nombreCancion"));
         colArtistaTodas.setCellValueFactory(new PropertyValueFactory<>("artista"));
+        colAlbumTodas.setCellValueFactory(new PropertyValueFactory<>("nombreAlbum"));
         tblCancionesTodas.setItems(listaCancionesArtistas);
-
-        //Tabla Usuario
-        colTituloUsuario.setCellValueFactory(new PropertyValueFactory<>("nombreCancion"));
-        colArtistaTodas.setCellValueFactory(new PropertyValueFactory<>("artista"));
-        tblCancionesUsuario.setItems(listaCancionesUsuario);
 
         tblCancionesTodas.getSelectionModel().selectedItemProperty()
                 .addListener((obs, oldSelection, newSelection) -> {
                     cancionSeleccionadaTodas = newSelection;
                 });
+
+        // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+        filteredCancionData = new FilteredList<>(listaCancionesArtistas, p -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        txtBuscarCancion.textProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("Texto ingresado: " + newValue);
+            filteredCancionData.setPredicate(cancion -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (cancion.getNombreCancion().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches first name.
+                } else if (cancion.getArtista().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches last name.
+                } else if (cancion.getGenero().toString().contains(lowerCaseFilter)) {
+                    return true; // Filter matches last name.
+                }else if (cancion.getNombreAlbum().toLowerCase().contains(lowerCaseFilter)){
+                    return true;
+                }
+                return false; // Does not match.
+            });
+        });
+
+
+        //Tabla Usuario
+        colTituloUsuario.setCellValueFactory(new PropertyValueFactory<>("nombreCancion"));
+        colArtistaTodas.setCellValueFactory(new PropertyValueFactory<>("artista"));
+        colAlbumUsuario.setCellValueFactory(new PropertyValueFactory<>("nombreAlbum"));
+        tblCancionesUsuario.setItems(listaCancionesUsuario);
 
         tblCancionesUsuario.getSelectionModel().selectedItemProperty()
                 .addListener((obs, oldSelection, newSelection) -> {
