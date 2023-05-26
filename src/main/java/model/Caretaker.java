@@ -1,12 +1,11 @@
 package model;
 
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Stack;
 
-public class Carataker implements Serializable {
+public class Caretaker implements Serializable {
 
     private Stack<Memento> historialDeshacer = new Stack<>();
     private Stack<Memento> historialRehacer = new Stack<>();

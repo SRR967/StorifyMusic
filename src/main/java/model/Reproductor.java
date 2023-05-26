@@ -104,7 +104,7 @@ public class Reproductor implements Serializable {
         Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,URl,artista,duracion);
         YoutubeImage youtubeImage= new YoutubeImage(URl,nombreCancion);
         youtubeImage.instancia();
-        asignarImagen(cancion);
+        //asignarImagen(cancion);
         ListaDoble<Cancion> cancionesArtista = artista.getCancionesArtista();
 
         if (!cancionesArtista.existe(codigo)){
@@ -142,6 +142,13 @@ public class Reproductor implements Serializable {
         return izquierda || derecha;
     }
 
+    public void agregarCancionListaUser(Usuario usuario, Cancion cancionSeleccionadaTodas) {
+        usuario.agregarCancionLista(cancionSeleccionadaTodas);
+    }
+
+    public void eliminarCancionListaUser(Usuario usuario, Cancion cancionSeleccionadaMias) {
+        usuario.eliminarCancionLista(cancionSeleccionadaMias);
+    }
 
     public HashMap<String, Usuario> getTablaUsuarios() {
         return tablaUsuarios;

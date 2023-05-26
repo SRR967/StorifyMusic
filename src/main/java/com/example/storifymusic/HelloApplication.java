@@ -9,13 +9,16 @@ import model.*;
 import serializacion.Persistencia;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.function.Consumer;
 
 public class HelloApplication extends Application {
 
-    private Reproductor reproductor = new Reproductor();
-    //private Reproductor reproductor = Persistencia.deserializar();
+    //private Reproductor reproductor = new Reproductor();
+    private Reproductor reproductor = Persistencia.deserializar();
     private Stage primaryStage;
+
+    private Caretaker caretaker = new Caretaker();
 
     public static void main(String[] args) {
         launch();
@@ -149,6 +152,14 @@ public class HelloApplication extends Application {
         showAdminView();
     }
 
+    public void deshacer() throws IOException, ClassNotFoundException {
+        caretaker.deshacer(reproductor);
+    }
+
+    public void rehacer() throws IOException, ClassNotFoundException {
+        caretaker.rehacer(reproductor);
+    }
+
     public void ingresarAdmin(String userName, String contrasenia) throws IOException {
         boolean verificar = reproductor.ingresarAdmin(userName,contrasenia);
         if (verificar){
@@ -191,9 +202,30 @@ public class HelloApplication extends Application {
         }
     }
 
+    public void agregarCancionListaUser(Usuario usuario, Cancion cancionSeleccionada) throws IOException, ClassNotFoundException {
+        caretaker.guardarEstado(reproductor);
+        System.out.println("Almacenado estado Reproductor");
+        reproductor.agregarCancionListaUser(usuario,cancionSeleccionada);
+        Persistencia.serializar(reproductor);
+
+    }
+
+    public void eliminarCancionUser(Usuario usuario, Cancion cancionSeleccionadaMias) throws IOException, ClassNotFoundException {
+        caretaker.guardarEstado(reproductor);
+        System.out.println("Almacenado estado reproductor");
+        reproductor.eliminarCancionListaUser(usuario, cancionSeleccionadaMias);
+        Persistencia.serializar(reproductor);
+    }
+
+
     public ArbolBinario<Artista> getArtistas(){
         return reproductor.getArbolArtista();
     }
+
+    public HashMap<String, Usuario> getTablaUsuarios() {
+        return reproductor.getTablaUsuarios();
+    }
+
 
 
 }

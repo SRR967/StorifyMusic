@@ -123,5 +123,28 @@ public class ListaDobleCircular<T> implements Serializable {
         System.out.println();
     }
 
+    public NodoLista<T> getNodoPrimero() {
+        return nodoPrimero;
+    }
+
+    public void setNodoPrimero(NodoLista<T> nodoPrimero) {
+        this.nodoPrimero = nodoPrimero;
+    }
+
+    public NodoLista<T> getNodoUltimo() {
+        return nodoUltimo;
+    }
+
+    public void setNodoUltimo(NodoLista<T> nodoUltimo) {
+        this.nodoUltimo = nodoUltimo;
+    }
+
+    public int getTamanio() {
+        return tamanio;
+    }
+
+    public void setTamanio(int tamanio) {
+        this.tamanio = tamanio;
+    }
 }
 
