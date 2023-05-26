@@ -36,7 +36,7 @@ public class YoutubeImage implements Serializable {
         this.nombreArchivo = nombreArchivo;
     }
 
-    public void instancia() {
+    public boolean instancia() {
         try {
             YouTube youtubeService = getService();
 
@@ -44,19 +44,22 @@ public class YoutubeImage implements Serializable {
             // Obtener información del video
             YouTube.Videos.List videoRequest = youtubeService.videos().list(Collections.singletonList("snippet"));
             videoRequest.setKey(API_KEY);
-            videoRequest.setId(Collections.singletonList(getVideoIdFromLink(videoLink)));
+            videoRequest.setId(Collections.singletonList(videoLink));
             VideoListResponse response = videoRequest.execute();
             List<Video> videos = response.getItems();
 
             if (!videos.isEmpty()) {
                 Video video = videos.get(0);
                 descargarImagen(video);
+                return true;
             }else {
                 System.out.println("No se encontró el video");
+                return false;
             }
         }catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     private  void descargarImagen(Video video) throws IOException {
@@ -83,24 +86,6 @@ public class YoutubeImage implements Serializable {
         return new YouTube.Builder(httpTransport, jsonFactory, requestInitializer)
                 .setApplicationName("Mi aplicación")
                 .build();
-    }
-
-
-    private  String getVideoIdFromLink(String videoLink) {
-        String videoId = "";
-
-        if (videoLink != null && !videoLink.isEmpty()) {
-            String regex = "(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|\\/e\\/|watch\\?v%3D|watch\\?feature=)" +
-                    "([\\w-]+)(?=(&|\\?|$))";
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(videoLink);
-
-            if (matcher.find()) {
-                videoId = matcher.group();
-            }
-        }
-
-        return videoId;
     }
 
 

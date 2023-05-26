@@ -132,9 +132,48 @@ public class UsuarioVistaController {
 
     @FXML
     public void reproducir(ActionEvent actionEvent){
-        YoutubePlayer youtubePlayer = new YoutubePlayer();
-        Stage stage = new Stage();
-        youtubePlayer.start(stage);
+
+        // Initialize Chromium.
+        EngineOptions options = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
+                .licenseKey("1BNDHFSC1G6ACMC4FPYDA9JCGE2ON6O8O1TLU39NUKF2TT6JPNM2U3U13827LFGQ5LROE8")
+                .build();
+        Engine engine = Engine.newInstance(options);
+
+        // Create a Browser instance.
+        Browser browser = engine.newBrowser();
+
+        // Load the required web page.
+        browser.navigation().loadUrl(cancionSeleccion.getUrlYoutube());
+
+        // Create and embed JavaFX BrowserView component to display web content.
+        BrowserView view = BrowserView.newInstance(browser);
+
+        Scene scene = new Scene(new BorderPane(view), 600, 406);
+        Stage primaryStage = new Stage();
+        primaryStage.setTitle(cancionSeleccion.getNombre());
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        // Shutd<own Chromium and release allocated resources.
+        primaryStage.setOnCloseRequest(event1 -> engine.close());
+
+
+
+        /*
+        if (cancionSeleccionadaTodas!= null){
+            YoutubePlayer youtubePlayer = new YoutubePlayer(cancionSeleccionadaTodas.getURL());
+            Stage stage = new Stage();
+            youtubePlayer.start(stage);
+        }else if (cancionSeleccionadaMias!= null){
+            YoutubePlayer youtubePlayer = new YoutubePlayer(cancionSeleccionadaMias.getURL());
+            Stage stage = new Stage();
+            youtubePlayer.start(stage);
+        }else {
+            System.out.println("No hay cancion seleccionada");
+        }
+
+         */
+
     }
 
     @FXML

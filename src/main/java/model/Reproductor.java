@@ -7,6 +7,8 @@ import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Reproductor implements Serializable {
@@ -101,19 +103,27 @@ public class Reproductor implements Serializable {
     public boolean crearCancion(Artista artista,String codigo,String nombreCancion, String nombreAlbum,String anio,
                                 Genero genero, String URl, String duracion) {
 
-        Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,URl,artista.getNombre(),duracion);
-        YoutubeImage youtubeImage= new YoutubeImage(URl,nombreCancion);
-        youtubeImage.instancia();
-        //asignarImagen(cancion);
-        ListaDoble<Cancion> cancionesArtista = artista.getCancionesArtista();
 
-        if (!cancionesArtista.existe(codigo)){
-            cancionesArtista.agregarfinal(cancion);
-            return true;
+        String idVideo = getVideoIdFromLink(URl);
+        Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,idVideo,artista.getNombre(),duracion);
+        YoutubeImage youtubeImage= new YoutubeImage(idVideo,nombreCancion);
+        if (youtubeImage.instancia()){
 
+            ListaDoble<Cancion> cancionesArtista = artista.getCancionesArtista();
+
+            if (!cancionesArtista.existe(codigo)){
+                cancionesArtista.agregarfinal(cancion);
+                return true;
+
+            }else {
+                return false;
+            }
         }else {
             return false;
         }
+
+
+        //asignarImagen(cancion);
 
     }
     public void asignarImagen(Cancion cancion){
@@ -141,6 +151,34 @@ public class Reproductor implements Serializable {
 
         return izquierda || derecha;
     }
+
+    public String getVideoIdFromLink(String videoLink) {
+        String videoId = "";
+
+        if (videoLink != null && !videoLink.isEmpty()) {
+            String regex = "(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|\\/e\\/|watch\\?v%3D|watch\\?feature=)" +
+                    "([\\w-]+)(?=(&|\\?|$))";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(videoLink);
+
+            if (matcher.find()) {
+                videoId = matcher.group();
+            }
+        }
+        return videoId;
+    }
+
+    public boolean verificarEnlaceYouTube(String enlace) {
+        // Verificar si el enlace contiene la cadena "youtube.com" o "youtu.be"
+        if (enlace.contains("youtube.com") || enlace.contains("youtu.be")) {
+            // Verificar si el enlace tiene el formato correcto
+            if (enlace.matches("(http(s)?:\\/\\/)?(www\\.)?((youtube\\.com\\/watch\\?v=\\S+)|(youtu\\.be\\/\\S+))")) {
+                return true; // El enlace es válido
+            }
+        }
+        return false; // El enlace no es válido
+    }
+
 
     public void agregarCancionListaUser(Usuario usuario, Cancion cancionSeleccionadaTodas) {
         usuario.agregarCancionLista(cancionSeleccionadaTodas);

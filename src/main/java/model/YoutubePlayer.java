@@ -13,9 +13,12 @@ import java.io.Serializable;
 
 
 public class YoutubePlayer extends Application implements Serializable {
-    private static final String YOUTUBE_VIDEO_ID = "Q5CL1b-FD9E";
+    private String youtubeID;
     private static final long serialVersionUID = 1L;
 
+    public YoutubePlayer(String youtubeID) {
+        this.youtubeID = youtubeID;
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -32,7 +35,7 @@ public class YoutubePlayer extends Application implements Serializable {
                 JSObject window = (JSObject) webEngine.executeScript("window");
                 window.setMember("javaConnector", new JavaConnector());
                 // Ejecuta el código JavaScript para iniciar la reproducción del video
-                webEngine.executeScript("playVideo('" + YOUTUBE_VIDEO_ID + "')");
+                webEngine.executeScript("playVideo('" + youtubeID + "')");
             }
         });
 
