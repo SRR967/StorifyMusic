@@ -30,5 +30,6 @@
       <Button layoutX="662.0" layoutY="276.0" mnemonicParsing="false" onAction="#eliminarCancionUsuario" text="Eliminar cancion" />
       <Button layoutX="479.0" layoutY="316.0" mnemonicParsing="false" onAction="#deshacer" text="deshacer" />
       <Button layoutX="636.0" layoutY="316.0" mnemonicParsing="false" onAction="#rehacer" text="rehacer" />
+      <TextField fx:id="txtBuscarCancion" layoutX="387.0" layoutY="19.0" promptText="Buscar cancion" />
    </children>
 </AnchorPane>

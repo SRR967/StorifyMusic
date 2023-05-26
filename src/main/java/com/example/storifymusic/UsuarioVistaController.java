@@ -1,18 +1,26 @@
 package com.example.storifymusic;
 
+import com.teamdev.jxbrowser.browser.Browser;
+import com.teamdev.jxbrowser.engine.Engine;
+import com.teamdev.jxbrowser.engine.EngineOptions;
+import com.teamdev.jxbrowser.view.javafx.BrowserView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.*;
 
 import java.io.IOException;
 import java.util.function.Consumer;
+
+import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 
 
 public class UsuarioVistaController {
@@ -133,29 +141,14 @@ public class UsuarioVistaController {
     @FXML
     public void reproducir(ActionEvent actionEvent){
 
-        // Initialize Chromium.
-        EngineOptions options = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
-                .licenseKey("1BNDHFSC1G6ACMC4FPYDA9JCGE2ON6O8O1TLU39NUKF2TT6JPNM2U3U13827LFGQ5LROE8")
-                .build();
-        Engine engine = Engine.newInstance(options);
+        if (cancionSeleccionadaTodas != null){
+            reproducirVideo(cancionSeleccionadaTodas);
+        }else if (cancionSeleccionadaMias != null){
+            reproducirVideo(cancionSeleccionadaMias);
+        }else {
+            System.out.println("No se selecciono ningun video");
+        }
 
-        // Create a Browser instance.
-        Browser browser = engine.newBrowser();
-
-        // Load the required web page.
-        browser.navigation().loadUrl(cancionSeleccion.getUrlYoutube());
-
-        // Create and embed JavaFX BrowserView component to display web content.
-        BrowserView view = BrowserView.newInstance(browser);
-
-        Scene scene = new Scene(new BorderPane(view), 600, 406);
-        Stage primaryStage = new Stage();
-        primaryStage.setTitle(cancionSeleccion.getNombre());
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-        // Shutd<own Chromium and release allocated resources.
-        primaryStage.setOnCloseRequest(event1 -> engine.close());
 
 
 
@@ -174,6 +167,32 @@ public class UsuarioVistaController {
 
          */
 
+    }
+
+    private void reproducirVideo(Cancion cancion){
+        // Initialize Chromium.
+        EngineOptions options = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
+                .licenseKey("1BNDHFSC1G6ACMC4FPYDA9JCGE2ON6O8O1TLU39NUKF2TT6JPNM2U3U13827LFGQ5LROE8")
+                .build();
+        Engine engine = Engine.newInstance(options);
+
+        // Create a Browser instance.
+        Browser browser = engine.newBrowser();
+
+        // Load the required web page.
+        browser.navigation().loadUrl(cancion.getURL());
+
+        // Create and embed JavaFX BrowserView component to display web content.
+        BrowserView view = BrowserView.newInstance(browser);
+
+        Scene scene = new Scene(new BorderPane(view), 600, 406);
+        Stage primaryStage = new Stage();
+        primaryStage.setTitle(cancion.getNombreCancion());
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        // Shutd<own Chromium and release allocated resources.
+        primaryStage.setOnCloseRequest(event1 -> engine.close());
     }
 
     @FXML
@@ -199,12 +218,14 @@ public class UsuarioVistaController {
     @FXML
     public void deshacer(ActionEvent event) throws IOException, ClassNotFoundException {
         aplicacion.deshacer();
+        userName= aplicacion.reemplazarUsuario(userName);
         actualizarTablaMiLista();
     }
 
     @FXML
     public void rehacer(ActionEvent event) throws IOException, ClassNotFoundException {
         aplicacion.rehacer();
+        userName= aplicacion.reemplazarUsuario(userName);
         actualizarTablaMiLista();
     }
 
@@ -241,8 +262,6 @@ public class UsuarioVistaController {
         agregarCancionesMias(userName.getListaCanciones());
         tblCancionesUsuario.setItems(listaCancionesUsuario);
         tblCancionesUsuario.refresh();
-
-
     }
 
 

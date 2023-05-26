@@ -154,10 +154,12 @@ public class HelloApplication extends Application {
 
     public void deshacer() throws IOException, ClassNotFoundException {
         caretaker.deshacer(reproductor);
+        Persistencia.serializar(reproductor);
     }
 
     public void rehacer() throws IOException, ClassNotFoundException {
         caretaker.rehacer(reproductor);
+        Persistencia.serializar(reproductor);
     }
 
     public void ingresarAdmin(String userName, String contrasenia) throws IOException {
@@ -226,6 +228,13 @@ public class HelloApplication extends Application {
         return reproductor.getTablaUsuarios();
     }
 
+    public Usuario reemplazarUsuario(Usuario usuario){
+        return reemplazarUsuario(getTablaUsuarios(),usuario);
+    }
+
+    private Usuario reemplazarUsuario(HashMap<String,Usuario> tablaUsuarios,Usuario usuario){
+        return tablaUsuarios.get(usuario.getUserName());
+    }
 
 
 }

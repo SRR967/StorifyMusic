@@ -12,6 +12,10 @@ module com.example.storifymusic {
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
+
+    requires jxbrowser;
+    requires jxbrowser.javafx;
+
     exports model;
 
 

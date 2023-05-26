@@ -105,7 +105,7 @@ public class Reproductor implements Serializable {
 
 
         String idVideo = getVideoIdFromLink(URl);
-        Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,idVideo,artista.getNombre(),duracion);
+        Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,URl,artista.getNombre(),duracion);
         YoutubeImage youtubeImage= new YoutubeImage(idVideo,nombreCancion);
         if (youtubeImage.instancia()){
 
