@@ -59,6 +59,8 @@ public class ListaDobleCircular<T> implements Serializable {
         NodoLista<T> nuevoNodo = new NodoLista<>( valorNodo );
 
         if( estaVacia() ) {
+            nuevoNodo.setSiguiente(nuevoNodo);
+            nuevoNodo.setAnterior(nuevoNodo);
             nodoPrimero = nodoUltimo = nuevoNodo;
         }
         else {
@@ -79,29 +81,40 @@ public class ListaDobleCircular<T> implements Serializable {
     public void eliminar(T valor) {
         NodoLista<T> actual = nodoPrimero;
 
-        // Buscar el nodo con el valor dado
-        while (actual != null && !actual.getDato().equals(valor)) {
+        while (actual.getDato() != valor) {
             actual = actual.getSiguiente();
+
+            // Si se ha recorrido toda la lista y no se encontró el elemento
+            if (actual == nodoPrimero) {
+                System.out.println("El elemento no se encontró en la lista");
+                return;
+            }
         }
 
-        if (actual != null) {
-            NodoLista<T> anterior = actual.getAnterior();
-            NodoLista<T> siguiente = actual.getSiguiente();
-
-            if (anterior != null) {
-                anterior.setSiguiente(siguiente);
-            } else {
-                nodoPrimero = siguiente;
-            }
-
-            if (siguiente != null) {
-                siguiente.setAnterior(anterior);
-            } else {
-                nodoUltimo = anterior;
-            }
-
-            tamanio--;
+        // Si solo hay un elemento en la lista
+        if (nodoPrimero == nodoUltimo) {
+            nodoPrimero = null;
+            nodoUltimo = null;
         }
+        // Si el elemento a borrar es el primero de la lista
+        else if (actual == nodoPrimero) {
+            nodoPrimero = nodoPrimero.getSiguiente();
+            nodoPrimero.setAnterior(nodoUltimo);
+            nodoUltimo.setSiguiente(nodoPrimero);
+        }
+        // Si el elemento a borrar es el último de la lista
+        else if (actual == nodoUltimo) {
+            nodoUltimo = nodoUltimo.getAnterior();
+            nodoUltimo.setSiguiente(nodoPrimero);
+            nodoPrimero.setAnterior(nodoUltimo);
+        }
+        // Si el elemento a borrar está en medio de la lista
+        else {
+            actual.getAnterior().setSiguiente(actual.getSiguiente());
+            actual.getSiguiente().setAnterior(actual.getAnterior());
+        }
+
+        tamanio--;
     }
 
 

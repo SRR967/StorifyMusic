@@ -101,7 +101,7 @@ public class Reproductor implements Serializable {
     public boolean crearCancion(Artista artista,String codigo,String nombreCancion, String nombreAlbum,String anio,
                                 Genero genero, String URl, String duracion) {
 
-        Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,URl,artista,duracion);
+        Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,URl,artista.getNombre(),duracion);
         YoutubeImage youtubeImage= new YoutubeImage(URl,nombreCancion);
         youtubeImage.instancia();
         //asignarImagen(cancion);

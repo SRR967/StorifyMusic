@@ -19,7 +19,8 @@ public class UsuarioVistaController {
 
     HelloApplication aplicacion;
     private Usuario userName;
-    private Cancion cancionSeleccionada;
+    private Cancion cancionSeleccionadaTodas;
+    private Cancion cancionSeleccionadaMias;
     private ObservableList<Cancion> listaCancionesArtistas;
     private ObservableList<Cancion> listaCancionesUsuario;
 
@@ -119,9 +120,13 @@ public class UsuarioVistaController {
 
         tblCancionesTodas.getSelectionModel().selectedItemProperty()
                 .addListener((obs, oldSelection, newSelection) -> {
-                    cancionSeleccionada = newSelection;
+                    cancionSeleccionadaTodas = newSelection;
                 });
 
+        tblCancionesUsuario.getSelectionModel().selectedItemProperty()
+                .addListener((obs, oldSelection, newSelection) -> {
+                    cancionSeleccionadaMias = newSelection;
+                });
     }
 
 
@@ -134,8 +139,8 @@ public class UsuarioVistaController {
 
     @FXML
     public void agregarCancionUsuario(ActionEvent event) throws IOException, ClassNotFoundException {
-        if (cancionSeleccionada != null) {
-            aplicacion.agregarCancionListaUser(userName, cancionSeleccionada);
+        if (cancionSeleccionadaTodas != null) {
+            aplicacion.agregarCancionListaUser(userName, cancionSeleccionadaTodas);
             actualizarTablaMiLista();
         } else {
             System.out.println("Ninguna cancion ha sido seleccionada");
@@ -144,8 +149,8 @@ public class UsuarioVistaController {
 
     @FXML
     public void eliminarCancionUsuario(ActionEvent event) throws IOException, ClassNotFoundException {
-        if (cancionSeleccionada != null) {
-            aplicacion.eliminarCancionUser(userName, cancionSeleccionada);
+        if (cancionSeleccionadaMias != null) {
+            aplicacion.eliminarCancionUser(userName, cancionSeleccionadaMias);
             actualizarTablaMiLista();
         } else {
             System.out.println("Ninguna cancion ha sido seleccionada");
@@ -178,23 +183,27 @@ public class UsuarioVistaController {
     }
 
     public void agregarCancionesMias(ListaDobleCircular<Cancion> listaCanciones){
-        // Agrega los elementos de tu lista doble personalizada al ObservableList
         listaCancionesUsuario.clear();
         NodoLista<Cancion> currentNode = listaCanciones.getNodoPrimero();
-        while (currentNode != null) {
-            listaCancionesUsuario.add(currentNode.getDato());
-            currentNode = currentNode.getSiguiente();
+
+        if (currentNode !=null){
+
+            do {
+                listaCancionesUsuario.add(currentNode.getDato());
+                currentNode = currentNode.getSiguiente();
+            }while (currentNode != listaCanciones.getNodoPrimero());
+        }else {
+            System.out.println("NO hay canciones del usuario");
         }
     }
 
     private void actualizarTablaMiLista() {
         tblCancionesUsuario.getItems().clear();
-        /*
         agregarCancionesMias(userName.getListaCanciones());
         tblCancionesUsuario.setItems(listaCancionesUsuario);
         tblCancionesUsuario.refresh();
 
-         */
+
     }
 
 
