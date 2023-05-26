@@ -11,7 +11,7 @@ public class Usuario implements Serializable {
     private String userName;
     private String contrasenia;
     private String email;
-    private ListaDobleCircular<Cancion> listaCanciones;
+    private ListaDobleCircular<Cancion> listaCanciones = new ListaDobleCircular<>();
 
     private static final long serialVersionUID = 1L;
 

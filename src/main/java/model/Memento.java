@@ -3,8 +3,10 @@ package model;
 import java.io.*;
 import java.util.HashMap;
 
-public class Memento {
+public class Memento implements Serializable{
     HashMap<String, Usuario> tablaUsuarios;
+    private static final long serialVersionUID = 1L;
+
 
     public Memento(HashMap<String, Usuario> tablaUsuarios) throws IOException, ClassNotFoundException {
 

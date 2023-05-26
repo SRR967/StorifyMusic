@@ -9,7 +9,7 @@ public class Cancion implements Serializable {
     private String codigo;
     private String nombreCancion;
     private String nombreAlbum;
-    private ImageView Caratula;
+    private transient ImageView Caratula;
     private String anio;
     private String duracion;
     private Genero genero;

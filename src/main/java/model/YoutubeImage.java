@@ -2,6 +2,7 @@ package model;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,10 +24,12 @@ import com.google.api.services.youtube.model.VideoListResponse;
 
 
 
-public class YoutubeImage {
+public class YoutubeImage implements Serializable {
     private  final String API_KEY = "AIzaSyD8vXlcYr6QxqWiQ7XYTU22TBXsrko-xf8";
     private String videoLink;
     private String nombreArchivo;
+    private static final long serialVersionUID = 1L;
+
 
     public YoutubeImage(String videoLink, String nombreArchivo) {
         this.videoLink = videoLink;

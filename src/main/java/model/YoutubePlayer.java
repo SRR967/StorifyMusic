@@ -9,9 +9,13 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 
+import java.io.Serializable;
 
-public class YoutubePlayer extends Application {
+
+public class YoutubePlayer extends Application implements Serializable {
     private static final String YOUTUBE_VIDEO_ID = "Q5CL1b-FD9E";
+    private static final long serialVersionUID = 1L;
+
 
     @Override
     public void start(Stage primaryStage) {

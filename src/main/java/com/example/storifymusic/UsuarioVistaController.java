@@ -4,18 +4,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.function.Consumer;
 
 
@@ -24,10 +19,11 @@ public class UsuarioVistaController {
     HelloApplication aplicacion;
     private Usuario userName;
     private Cancion cancionSeleccionada;
+    private ObservableList<Cancion> listaCancionesArtistas;
     private ObservableList<Cancion> listaCancionesUsuario;
 
     @FXML
-    private TableView<Cancion> tblCancionesUsuario;
+    private TableView<Cancion> tblCanciones;
 
     @FXML
     private TableColumn<Boolean,Cancion> colFavorito;
@@ -52,7 +48,12 @@ public class UsuarioVistaController {
     }
 
     public void setAplicacion(HelloApplication aplicacion) {
+
         this.aplicacion = aplicacion;
+        ArbolBinario<Artista> artistas= aplicacion.getArtistas();
+        listaCancionesArtistas = FXCollections.observableArrayList();
+        inOrderTraversal(artistas,artista -> listaCancionesArtistas.addAll(artista.getCancionesArtista().getAll()));
+        tblCanciones.setItems(listaCancionesArtistas);
     }
 
     @FXML
@@ -63,7 +64,7 @@ public class UsuarioVistaController {
         colTitulo.setCellValueFactory(new PropertyValueFactory<>("nombreCancion"));
         tblCancionesUsuario.setItems(listaCancionesUsuario);
 
-         */
+
         Artista artista1 = new Artista("Feid","01","Colombiano",false);
         Cancion cancion = new Cancion("01","Ferxxo 100", artista1);
         ListaDoble<Cancion> listaDoble= new ListaDoble<>();
@@ -77,9 +78,11 @@ public class UsuarioVistaController {
         //ArbolBinario<Artista> artistas= aplicacion.getArtistas();
         inOrderTraversal(artistas,artista -> listaCancionesUsuario.addAll(artista.getCancionesArtista().getAll()));
 
+
+         */
         colTitulo.setCellValueFactory(new PropertyValueFactory<>("nombreCancion"));
         colArtista.setCellValueFactory(new PropertyValueFactory<>("artista"));
-        tblCancionesUsuario.setItems(listaCancionesUsuario);
+        tblCanciones.setItems(listaCancionesUsuario);
     }
 
 

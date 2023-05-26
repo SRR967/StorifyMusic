@@ -1,13 +1,18 @@
 package model;
 
 
+import java.awt.*;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Stack;
 
-public class Carataker {
+public class Carataker implements Serializable {
 
     private Stack<Memento> historialDeshacer = new Stack<>();
     private Stack<Memento> historialRehacer = new Stack<>();
+
+    private static final long serialVersionUID = 1L;
+
 
     public void guardarEstado(Reproductor reproductor) throws IOException, ClassNotFoundException {
         Memento memento = reproductor.crearMemento();

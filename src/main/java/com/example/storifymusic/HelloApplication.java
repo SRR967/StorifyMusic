@@ -13,7 +13,8 @@ import java.util.function.Consumer;
 
 public class HelloApplication extends Application {
 
-    private Reproductor reproductor = Persistencia.deserializar();
+    private Reproductor reproductor = new Reproductor();
+    //private Reproductor reproductor = Persistencia.deserializar();
     private Stage primaryStage;
 
     public static void main(String[] args) {
