@@ -9,7 +9,7 @@ public class Cancion implements Serializable {
     private String codigo;
     private String nombreCancion;
     private String nombreAlbum;
-    private transient ImageView Caratula;
+    private String Caratula;
     private String anio;
     private String duracion;
     private Genero genero;
@@ -60,11 +60,11 @@ public class Cancion implements Serializable {
         this.nombreAlbum = nombreAlbum;
     }
 
-    public ImageView getCaratula() {
+    public String getCaratula() {
         return Caratula;
     }
 
-    public void setCaratula(ImageView caratula) {
+    public void setCaratula(String caratula) {
         Caratula = caratula;
     }
 

@@ -19,6 +19,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
+import com.google.api.services.youtube.model.ThumbnailDetails;
 import com.google.api.services.youtube.model.Video;
 import com.google.api.services.youtube.model.VideoListResponse;
 
@@ -63,8 +64,16 @@ public class YoutubeImage implements Serializable {
     }
 
     private  void descargarImagen(Video video) throws IOException {
-        String thumbnailUrl = video.getSnippet().getThumbnails().getMaxres().getUrl();
-        URL url = new URL(thumbnailUrl);
+        // Obtener las diferentes resoluciones de las imágenes disponibles
+        ThumbnailDetails thumbnails = video.getSnippet().getThumbnails();
+
+        String highestResolutionUrl = thumbnails.getMaxres() != null ? thumbnails.getMaxres().getUrl() :
+                thumbnails.getStandard() != null ? thumbnails.getStandard().getUrl() :
+                        thumbnails.getHigh() != null ? thumbnails.getHigh().getUrl() :
+                                thumbnails.getMedium() != null ? thumbnails.getMedium().getUrl() :
+                                        thumbnails.getDefault().getUrl();
+
+        URL url = new URL(highestResolutionUrl);
         InputStream in = url.openStream();
         // Ruta de destino para guardar la imagen
         String destinationPath = "src/main/resources/imagenes/"+nombreArchivo+".png";

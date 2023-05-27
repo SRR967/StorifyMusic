@@ -18,9 +18,10 @@
         <columns>
           <TableColumn fx:id="colCodigo" prefWidth="75.0" text="Codigo" />
           <TableColumn fx:id="colNombre" prefWidth="75.0" text="Nombre" />
-            <TableColumn fx:id="colNacionalidad" prefWidth="75.0" text="Nacionalida" />
+            <TableColumn fx:id="colNacionalidad" prefWidth="75.0" text="Nacionalidad" />
             <TableColumn fx:id="colGrupo" prefWidth="75.0" text="IsGrupo" />
         </columns>
       </TableView>
+      <Button layoutX="240.0" layoutY="360.0" mnemonicParsing="false" onAction="#subirArchivo" text="Subir archivo" />
    </children>
 </AnchorPane>

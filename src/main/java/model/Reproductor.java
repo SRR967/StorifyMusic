@@ -110,7 +110,7 @@ public class Reproductor implements Serializable {
         if (youtubeImage.instancia()){
 
             ListaDoble<Cancion> cancionesArtista = artista.getCancionesArtista();
-
+            cancion.setCaratula("imagenes/"+cancion.getNombreCancion()+".png");
             if (!cancionesArtista.existe(codigo)){
                 cancionesArtista.agregarfinal(cancion);
                 return true;
@@ -126,11 +126,6 @@ public class Reproductor implements Serializable {
         //asignarImagen(cancion);
 
     }
-    public void asignarImagen(Cancion cancion){
-        Image image = new Image("imagenes/"+cancion.getNombreCancion()+".png");
-        cancion.setCaratula(new ImageView(image));
-    }
-
 
     public  boolean existeNombreArtista(ArbolBinario<Artista> arbol,String nombre) {
         return existeNombreArtista(arbol.getRaiz(),nombre);
@@ -151,6 +146,53 @@ public class Reproductor implements Serializable {
 
         return izquierda || derecha;
     }
+
+    // Método para buscar un artista por nombre
+    public Artista buscarArtista(String nombre,ArbolBinario<Artista> arbol) {
+        return buscarArtistaRecursivo(arbol.getRaiz(), nombre);
+    }
+
+    private Artista buscarArtistaRecursivo(NodoArbol<Artista> raiz, String nombre) {
+        if (raiz == null) {
+            return null; // El árbol está vacío o el artista no se encuentra
+        }
+
+        if (raiz.getElemento().getNombre().equals(nombre)) {
+            return raiz.getElemento(); // Se encontró el artista
+        }
+
+        // Realizar la búsqueda en los subárboles izquierdo y derecho de forma recursiva
+        Artista artistaEncontrado = buscarArtistaRecursivo(raiz.getIzquierdo(), nombre);
+        if (artistaEncontrado == null) {
+            artistaEncontrado = buscarArtistaRecursivo(raiz.getDerecho(), nombre);
+        }
+
+        return artistaEncontrado; // Retorna el artista encontrado o null si no se encuentra
+    }
+
+    public  Artista getArtista(ArbolBinario<Artista> arbol,String nombre) {
+        return getArtista(arbol.getRaiz(),nombre);
+    }
+
+    private Artista getArtista(NodoArbol<Artista> nodo, String nombre){
+        if (nodo == null) {
+            return null; // El árbol está vacío o el artista no se encuentra
+        }
+
+        if (nodo.getElemento().getNombre().equals(nombre)) {
+            return nodo.getElemento(); // Se encontró el artista
+        }
+
+        // Realizar la búsqueda en los subárboles izquierdo y derecho de forma recursiva
+        Artista artistaEncontrado = buscarArtistaRecursivo(nodo.getIzquierdo(), nombre);
+        if (artistaEncontrado == null) {
+            artistaEncontrado = buscarArtistaRecursivo(nodo.getDerecho(), nombre);
+        }
+
+        return artistaEncontrado; // Retorna el artista encontrado o null si no se encuentra
+
+    }
+
 
     public String getVideoIdFromLink(String videoLink) {
         String videoId = "";

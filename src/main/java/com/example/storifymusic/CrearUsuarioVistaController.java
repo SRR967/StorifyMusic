@@ -31,13 +31,13 @@ public class CrearUsuarioVistaController {
         String clave = passContra.getText();
         String correo = txtEmailCrear.getText();
 
-        if (!( nombre.equals("") && correo.equals("") && clave.equals("")  )){
-            aplicacion.crearUsuario(nombre,clave,correo);
-        }else {
+        if (nombre.isEmpty() || clave.isEmpty() || correo.isEmpty()) {
             System.out.println("Hay campos sin completar");
+        } else {
+            aplicacion.crearUsuario(nombre, clave, correo);
         }
-
     }
+
 
     @FXML
     public void Atras(ActionEvent actionEvent) throws IOException {

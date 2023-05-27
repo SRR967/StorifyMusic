@@ -1,9 +1,12 @@
 package com.example.storifymusic;
 
 import com.teamdev.jxbrowser.browser.Browser;
+import com.teamdev.jxbrowser.deps.org.checkerframework.checker.units.qual.C;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.view.javafx.BrowserView;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -11,11 +14,10 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.*;
@@ -32,6 +34,7 @@ public class UsuarioVistaController {
     private Usuario userName;
     private Cancion cancionSeleccionadaTodas;
     private Cancion cancionSeleccionadaMias;
+
     private ObservableList<Cancion> listaCancionesArtistas= FXCollections.observableArrayList();
     private ObservableList<Cancion> listaCancionesUsuario= FXCollections.observableArrayList();
     private FilteredList<Cancion> filteredCancionData;
@@ -48,7 +51,6 @@ public class UsuarioVistaController {
     @FXML
     private TableColumn<Boolean,Cancion> colFavorito;
 
-
     @FXML
     private TableColumn<Cancion,String> colTituloTodas;
 
@@ -59,13 +61,13 @@ public class UsuarioVistaController {
     private TableColumn<String,Cancion> colArtistaTodas;
 
     @FXML
-    private TableColumn<String,Cancion> colArtistaUsuario;
+    private TableColumn<Cancion,String> colArtistaUsuario;
 
     @FXML
     private TableColumn<String,Cancion> colAlbumTodas;
 
     @FXML
-    private TableColumn<String,Cancion> colAlbumUsuario;
+    private TableColumn<Cancion,String> colAlbumUsuario;
 
     @FXML
     private TableColumn<String,Cancion> colDuracionTodas;
@@ -76,6 +78,23 @@ public class UsuarioVistaController {
     @FXML
     private TextField txtBuscarCancion;
 
+    @FXML
+    private ComboBox<String> cmbOrdenar;
+
+    @FXML
+    private Label lblCancion;
+
+    @FXML
+    private Label lblAlbum;
+
+    @FXML
+    private Label lblArtista;
+
+    @FXML
+    private Label lblDuracion;
+
+    @FXML
+    private ImageView imgCaratula;
 
     public void setUserName(Usuario userName) {
         this.userName = userName;
@@ -85,6 +104,10 @@ public class UsuarioVistaController {
 
         this.aplicacion = aplicacion;
         lblUsuario.setText(userName.getUserName());
+        lblCancion.setText("");
+        lblAlbum.setText("");
+        lblArtista.setText("");
+        lblDuracion.setText("");
 
         //llenar tabla canciones de la tienda
         tblCancionesTodas.getItems().clear();
@@ -116,6 +139,12 @@ public class UsuarioVistaController {
         tblCancionesTodas.getSelectionModel().selectedItemProperty()
                 .addListener((obs, oldSelection, newSelection) -> {
                     cancionSeleccionadaTodas = newSelection;
+                    lblCancion.setText(cancionSeleccionadaTodas.getNombreCancion());
+                    lblAlbum.setText(cancionSeleccionadaTodas.getNombreAlbum());
+                    lblArtista.setText(cancionSeleccionadaTodas.getArtista());
+                    lblDuracion.setText(cancionSeleccionadaTodas.getDuracion());
+                    Image image = new Image(cancionSeleccionadaTodas.getCaratula());
+                    imgCaratula.setImage(image);
                 });
 
         // 1. Wrap the ObservableList in a FilteredList (initially display all data).
@@ -133,32 +162,80 @@ public class UsuarioVistaController {
                 // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (cancion.getNombreCancion().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches first name.
-                } else if (cancion.getArtista().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches last name.
-                } else if (cancion.getGenero().toString().contains(lowerCaseFilter)) {
-                    return true; // Filter matches last name.
-                }else if (cancion.getNombreAlbum().toLowerCase().contains(lowerCaseFilter)){
-                    return true;
-                }
-                return false; // Does not match.
+                boolean nombreMatch = cancion.getNombreCancion().toLowerCase().contains(lowerCaseFilter);
+                boolean artistaMatch = cancion.getArtista().toLowerCase().contains(lowerCaseFilter);
+                boolean generoMatch = cancion.getGenero().getName().contains(lowerCaseFilter);
+                boolean albumMatch = cancion.getNombreAlbum().toLowerCase().contains(lowerCaseFilter);
+
+
+                return nombreMatch || artistaMatch|| generoMatch||albumMatch;
             });
         });
 
 
         //Tabla Usuario
         colTituloUsuario.setCellValueFactory(new PropertyValueFactory<>("nombreCancion"));
-        colArtistaTodas.setCellValueFactory(new PropertyValueFactory<>("artista"));
+        colArtistaUsuario.setCellValueFactory(new PropertyValueFactory<>("artista"));
         colAlbumUsuario.setCellValueFactory(new PropertyValueFactory<>("nombreAlbum"));
+        colDuracionUsuario.setCellValueFactory(new PropertyValueFactory<>("duracion"));
         tblCancionesUsuario.setItems(listaCancionesUsuario);
 
         tblCancionesUsuario.getSelectionModel().selectedItemProperty()
                 .addListener((obs, oldSelection, newSelection) -> {
                     cancionSeleccionadaMias = newSelection;
+                    lblCancion.setText(cancionSeleccionadaMias.getNombreCancion());
+                    lblAlbum.setText(cancionSeleccionadaMias.getNombreAlbum());
+                    lblArtista.setText(cancionSeleccionadaMias.getArtista());
+                    lblDuracion.setText(cancionSeleccionadaMias.getDuracion());
+                    Image image = new Image(cancionSeleccionadaMias.getCaratula());
+                    imgCaratula.setImage(image);
+
                 });
+
+        //Agregar elementos al comboBox
+        // Obtener la lista observable de elementos del ComboBox
+        ObservableList<String> items = cmbOrdenar.getItems();
+
+        // Agregar elementos al ComboBox
+        items.add("Por cancion");
+        items.add("Por artista");
+        items.add("Por Album");
+
+        // Agregar un ChangeListener al ComboBox
+        cmbOrdenar.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.equals("Por cancion")){
+                    ordenarListaPorCancion();
+                }else if (newValue.equals("Por artista")){
+                    ordenarListaPorArtista();
+                }else if (newValue.equals("Por Album")){
+                    ordenarListaPorAlbum();
+                }
+            }
+        });
+
     }
 
+    public void ordenarListaPorCancion() {
+        tblCancionesUsuario.getSortOrder().clear();
+        tblCancionesUsuario.getSortOrder().add(colTituloUsuario);
+        tblCancionesUsuario.refresh();
+    }
+
+    public void ordenarListaPorArtista() {
+        tblCancionesUsuario.getSortOrder().clear();
+        tblCancionesUsuario.getSortOrder().add(colArtistaUsuario);
+        tblCancionesUsuario.refresh();
+
+    }
+
+    public void ordenarListaPorAlbum() {
+        tblCancionesUsuario.getSortOrder().clear();
+        tblCancionesUsuario.getSortOrder().add(colAlbumUsuario);
+        tblCancionesUsuario.refresh();
+
+    }
 
     @FXML
     public void reproducir(ActionEvent actionEvent){
@@ -249,6 +326,11 @@ public class UsuarioVistaController {
         aplicacion.rehacer();
         userName= aplicacion.reemplazarUsuario(userName);
         actualizarTablaMiLista();
+    }
+
+    @FXML
+    void volver(ActionEvent event) throws IOException {
+        aplicacion.devolverLogin();
     }
 
 

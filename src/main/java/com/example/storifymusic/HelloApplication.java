@@ -14,8 +14,8 @@ import java.util.function.Consumer;
 
 public class HelloApplication extends Application {
 
-    //private Reproductor reproductor = new Reproductor();
-    private Reproductor reproductor = Persistencia.deserializar();
+    private Reproductor reproductor = new Reproductor();
+    //private Reproductor reproductor = Persistencia.deserializar();
     private Stage primaryStage;
 
     private Caretaker caretaker = new Caretaker();
@@ -234,6 +234,14 @@ public class HelloApplication extends Application {
 
     private Usuario reemplazarUsuario(HashMap<String,Usuario> tablaUsuarios,Usuario usuario){
         return tablaUsuarios.get(usuario.getUserName());
+    }
+
+    public boolean getExisteNombreArtista(ArbolBinario<Artista> artistas,String nombre){
+        return reproductor.existeNombreArtista(artistas, nombre);
+    }
+
+    public Artista getArtistaNombre(ArbolBinario<Artista> arbol, String nombre){
+        return reproductor.getArtista(arbol,nombre);
     }
 
 
