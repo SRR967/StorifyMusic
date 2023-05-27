@@ -109,6 +109,22 @@ public class HelloApplication extends Application {
         }
     }
 
+    public void showAdministrarUsuarios() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(HelloApplication.class.getResource("/com/example/storifymusic/AdminVistaUsuario.fxml"));
+            AnchorPane rootLayout = (AnchorPane) loader.load();
+            AdminVistaUsuario administrarUsuarioVistaController = loader.getController();
+            administrarUsuarioVistaController.setAplicacion(this);
+            Scene scene = new Scene(rootLayout);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void crearCancion(String nombre, String album, String uRL, Artista artista, String codigo, Genero genero,
                              String duracion, String anio) throws IOException {
         boolean verify = reproductor.crearCancion(artista,codigo,nombre,album,anio,genero,uRL,duracion);
@@ -242,6 +258,10 @@ public class HelloApplication extends Application {
 
     public Artista getArtistaNombre(ArbolBinario<Artista> arbol, String nombre){
         return reproductor.getArtista(arbol,nombre);
+    }
+
+    public boolean getExisteCodigo(String codigo){
+        return reproductor.verificarCodigo(codigo);
     }
 
 

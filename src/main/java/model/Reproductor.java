@@ -1,12 +1,9 @@
 package model;
 
-
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,10 +13,6 @@ public class Reproductor implements Serializable {
     private HashMap<String,Usuario> tablaUsuarios = new HashMap<>();
     private HashMap<String,Administrador> tablaAdmin = new HashMap<>();
     private ArbolBinario<Artista> arbolArtista = new ArbolBinario<>();
-
-    private ListaSimple<Artista> artistaInterfaz= new ListaSimple<>();
-    private ListaSimple<Cancion> cancionesArtista = new ListaSimple<>();
-
 
     private static final long serialVersionUID = 1L;
 
@@ -105,25 +98,63 @@ public class Reproductor implements Serializable {
 
 
         String idVideo = getVideoIdFromLink(URl);
-        Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,URl,artista.getNombre(),duracion);
-        YoutubeImage youtubeImage= new YoutubeImage(idVideo,nombreCancion);
-        if (youtubeImage.instancia()){
+        if ( verificarCodigo(codigo)){
+            System.out.println("Codigo repetido");
+        }else{
+            Cancion cancion = new Cancion(codigo,nombreCancion,nombreAlbum,anio,genero,URl,artista.getNombre(),duracion);
+            YoutubeImage youtubeImage= new YoutubeImage(idVideo,nombreCancion);
+            if (youtubeImage.instancia()){
 
-            ListaDoble<Cancion> cancionesArtista = artista.getCancionesArtista();
-            cancion.setCaratula("imagenes/"+cancion.getNombreCancion()+".png");
-            if (!cancionesArtista.existe(codigo)){
-                cancionesArtista.agregarfinal(cancion);
-                return true;
+                ListaDoble<Cancion> cancionesArtista = artista.getCancionesArtista();
+                cancion.setCaratula("imagenes/"+cancion.getNombreCancion()+".png");
+                if (!cancionesArtista.existe(codigo)){
+                    cancionesArtista.agregarfinal(cancion);
+                    return true;
 
+                }else {
+                    return false;
+                }
             }else {
                 return false;
             }
-        }else {
-            return false;
+        }
+        return false;
+    }
+
+    public boolean verificarCodigo(String codigo) {
+        return verificarCodigo(arbolArtista.getRaiz(), codigo);
+    }
+
+    private boolean verificarCodigo(NodoArbol<Artista> nodo, String codigo) {
+        boolean codigoDuplicado = false;
+
+        if (nodo != null) {
+            codigoDuplicado = verificarCodigo(nodo.getIzquierdo(), codigo);
+            codigoDuplicado = verificarCodigoExistente(nodo.getElemento().getCancionesArtista(),codigo) || codigoDuplicado;
+            codigoDuplicado = verificarCodigo(nodo.getDerecho(),codigo) || codigoDuplicado;
         }
 
+        return codigoDuplicado;
+    }
 
-        //asignarImagen(cancion);
+    private boolean verificarCodigoExistente(ListaDoble<Cancion> canciones, String codigo) {
+        if (canciones.estaVacia()){
+            return false;
+        }else {
+            HashSet<String> codigos = new HashSet<>();
+            NodoLista<Cancion> actual = canciones.getNodoPrimero();
+            codigos.add(actual.getDato().getCodigo());
+            while (actual != null) {
+                if (codigos.contains(codigo)) {
+                    return true; // Código duplicado encontrado, retorna true
+                } else {
+                    codigos.add(actual.getDato().getCodigo());
+                }
+                actual = actual.getSiguiente();
+            }
+
+            return false; // No se encontraron códigos duplicados
+        }
 
     }
 
@@ -193,7 +224,6 @@ public class Reproductor implements Serializable {
 
     }
 
-
     public String getVideoIdFromLink(String videoLink) {
         String videoId = "";
 
@@ -209,18 +239,6 @@ public class Reproductor implements Serializable {
         }
         return videoId;
     }
-
-    public boolean verificarEnlaceYouTube(String enlace) {
-        // Verificar si el enlace contiene la cadena "youtube.com" o "youtu.be"
-        if (enlace.contains("youtube.com") || enlace.contains("youtu.be")) {
-            // Verificar si el enlace tiene el formato correcto
-            if (enlace.matches("(http(s)?:\\/\\/)?(www\\.)?((youtube\\.com\\/watch\\?v=\\S+)|(youtu\\.be\\/\\S+))")) {
-                return true; // El enlace es válido
-            }
-        }
-        return false; // El enlace no es válido
-    }
-
 
     public void agregarCancionListaUser(Usuario usuario, Cancion cancionSeleccionadaTodas) {
         usuario.agregarCancionLista(cancionSeleccionadaTodas);

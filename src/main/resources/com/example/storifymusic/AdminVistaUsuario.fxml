@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.storifymusic.AdminVistaUsuario">
+   <children>
+      <TableView fx:id="tblUsuarios" layoutX="85.0" layoutY="44.0" prefHeight="200.0" prefWidth="254.0">
+        <columns>
+          <TableColumn fx:id="colUsername" prefWidth="75.0" text="User name" />
+          <TableColumn fx:id="colCorreo" prefWidth="75.0" text="Correo" />
+            <TableColumn fx:id="colContrasenia" prefWidth="75.0" text="Contraseña" />
+        </columns>
+      </TableView>
+      <Button layoutX="59.0" layoutY="271.0" mnemonicParsing="false" onAction="#artistaPopular" text="Artista Popular" />
+   </children>
+</AnchorPane>

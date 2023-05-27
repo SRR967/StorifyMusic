@@ -15,8 +15,8 @@ import java.io.IOException;
 
 public class CrearCancionVistaController {
 
-    HelloApplication aplicacion;
-    ObservableList<Artista> observableList;
+    private HelloApplication aplicacion;
+    private ObservableList<Artista> observableList;
 
     @FXML
     private TextField txtNombre;

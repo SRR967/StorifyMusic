@@ -1,7 +1,5 @@
 package model;
 
-import javafx.scene.image.ImageView;
-
 import java.io.Serializable;
 
 public class Cancion implements Serializable {
