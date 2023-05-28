@@ -34,7 +34,7 @@
             <TableColumn fx:id="colArtistaCancion" prefWidth="75.0" text="Artista" />
         </columns>
       </TableView>
-      <Button layoutX="268.0" layoutY="347.0" mnemonicParsing="false" onAction="#generoPopular" text="Canci" />
+      <Button layoutX="61.0" layoutY="306.0" mnemonicParsing="false" onAction="#generoPopular" text="Generos populares" />
       <Button layoutX="215.0" layoutY="15.0" mnemonicParsing="false" onAction="#administrarUsuarios" text="Administrar Usuario" />
    </children>
 </AnchorPane>

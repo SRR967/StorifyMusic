@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -12,6 +14,7 @@ import model.ListaDobleCircular;
 import model.NodoLista;
 import model.Usuario;
 
+import java.io.IOException;
 import java.util.*;
 
 public class AdminVistaUsuario {
@@ -56,7 +59,7 @@ public class AdminVistaUsuario {
 
     }
 
-    @FXML
+
     public void artistaPopular(ActionEvent event){
         // Crear un HashMap para almacenar el conteo de canciones por artista
         HashMap<String, Integer> conteoArtistas = new HashMap<>();
@@ -85,17 +88,37 @@ public class AdminVistaUsuario {
         listaArtistas.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
 
         // Obtener el nombre de los artistas y su conteo de canciones en el ObservableList
+        String artistaFav="Artistas favoritos\n";
         for (Map.Entry<String, Integer> entry : listaArtistas) {
             String artista = entry.getKey();
             int conteo = entry.getValue();
-            artistasPopulares.add(artista + ": " + conteo + " canciones");
+            artistaFav+= artista + ": " + conteo + " canciones\n";
         }
 
-        // Imprimir los artistas populares
-        for (String artista : artistasPopulares) {
-            System.out.println(artista);
-        }
+        mostrarMensajeInformacion(artistaFav);
 
     }
 
+    private boolean mostrarMensajeInformacion(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Informacion");
+        alert.setContentText(mensaje);
+        Optional<ButtonType> action = alert.showAndWait();
+
+        if (action.get() == ButtonType.OK) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @FXML
+    void devolver (ActionEvent event) throws IOException {
+        aplicacion.devolverInicio();
+    }
+
+    public ObservableList<String> getArtistasPopulares() {
+        return artistasPopulares;
+    }
 }

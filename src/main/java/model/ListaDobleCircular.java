@@ -43,15 +43,32 @@ public class ListaDobleCircular<T> implements Serializable {
      * @return posición donde se encontró el nodo
      */
     public int buscar( T valor ) {
-        int cont = 0;
-        int pos = -1;
-
-        for( NodoLista<T> aux = nodoPrimero; cont < tamanio; cont++, aux = aux.getSiguiente() ) {
-            if( aux.getDato().equals( valor ) ) {
-                pos = cont;
-            }
+        if (estaVacia()) {
+            // La lista está vacía
+            return -1;
         }
-        return pos;
+
+        NodoLista<T> actual = nodoPrimero;
+        int posicion = 0;
+        boolean encontrado = false;
+
+        do {
+            if (actual.getDato().equals(valor)) {
+                // Elemento encontrado, retorna su posición
+                encontrado = true;
+                break;
+            }
+
+            actual = actual.getSiguiente();
+            posicion++;
+        } while (actual != nodoPrimero);
+
+        if (encontrado) {
+            return posicion;
+        } else {
+            // Elemento no encontrado
+            return -1;
+        }
     }
 
     public void agregarFinal(T valorNodo) {

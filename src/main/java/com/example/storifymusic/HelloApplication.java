@@ -3,6 +3,8 @@ package com.example.storifymusic;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.*;
@@ -10,12 +12,12 @@ import serializacion.Persistencia;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class HelloApplication extends Application {
 
-    private Reproductor reproductor = new Reproductor();
-    //private Reproductor reproductor = Persistencia.deserializar();
+    private Reproductor reproductor = Reproductor.getInstance();
     private Stage primaryStage;
 
     private Caretaker caretaker = new Caretaker();
@@ -183,7 +185,7 @@ public class HelloApplication extends Application {
         if (verificar){
             showAdminView();
         }else {
-            //Mostrar error
+            mostrarMensajeInformacion("Username o contraseña incorrectos");
         }
 
     }
@@ -193,7 +195,7 @@ public class HelloApplication extends Application {
         if (verificar){
             showUsuario(userName);
         }else {
-            //Mostrar mensaje
+            mostrarMensajeInformacion("Username o contraseña incorrectos");
         }
     }
 
@@ -203,7 +205,7 @@ public class HelloApplication extends Application {
             Persistencia.serializar(reproductor);
             showLogin();
         } else {
-            System.out.println("El usuario ya existe");
+            mostrarMensajeInformacion("El usuario ya existe");
             //mostrarMensajeError("El usuario no puede ser creado");
         }
 
@@ -222,7 +224,6 @@ public class HelloApplication extends Application {
 
     public void agregarCancionListaUser(Usuario usuario, Cancion cancionSeleccionada) throws IOException, ClassNotFoundException {
         caretaker.guardarEstado(reproductor);
-        System.out.println("Almacenado estado Reproductor");
         reproductor.agregarCancionListaUser(usuario,cancionSeleccionada);
         Persistencia.serializar(reproductor);
 
@@ -264,5 +265,17 @@ public class HelloApplication extends Application {
         return reproductor.verificarCodigo(codigo);
     }
 
+    private boolean mostrarMensajeInformacion(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Informacion");
+        alert.setContentText(mensaje);
+        Optional<ButtonType> action = alert.showAndWait();
 
+        if (action.get() == ButtonType.OK) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

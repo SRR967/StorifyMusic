@@ -24,13 +24,10 @@ public class LoginVistaController {
     void ingresar(ActionEvent event) throws IOException {
 
         String usuario = txtUsuario.getText();
-        System.out.println(usuario);
         String contrasena = txtPassw.getText();
-        System.out.println(contrasena);
         if (usuario.equals("admin") && contrasena.equals("admin")) {
            aplicacion.ingresarAdmin(usuario, contrasena);
         } else {
-            System.out.println("Usuario");
             aplicacion.ingresarUsuario(usuario, contrasena);
         }
 

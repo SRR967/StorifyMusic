@@ -7,22 +7,22 @@ import java.util.Stack;
 
 public class Caretaker implements Serializable {
 
-    private Stack<Memento> historialDeshacer = new Stack<>();
-    private Stack<Memento> historialRehacer = new Stack<>();
+    private Pila<Memento> historialDeshacer = new Pila<>();
+    private Pila<Memento> historialRehacer = new Pila<>();
 
     private static final long serialVersionUID = 1L;
 
 
     public void guardarEstado(Reproductor reproductor) throws IOException, ClassNotFoundException {
         Memento memento = reproductor.crearMemento();
-        historialDeshacer.push(memento);
-        historialRehacer.clear();
+        historialDeshacer.insertar(memento);
+        historialRehacer.limpiarPila();
     }
 
     public void deshacer(Reproductor reproductor) throws IOException, ClassNotFoundException {
-        if (!historialDeshacer.isEmpty()) {
-            Memento memento = historialDeshacer.pop();
-            historialRehacer.push(reproductor.crearMemento());
+        if (!historialDeshacer.estaVacia()) {
+            Memento memento = historialDeshacer.quitar();
+            historialRehacer.insertar(reproductor.crearMemento());
             reproductor.restaurarDesdeMemento(memento.deepCopy());
             System.out.println("Deshaciendo la acción anterior.");
         } else {
@@ -31,9 +31,9 @@ public class Caretaker implements Serializable {
     }
 
     public void rehacer(Reproductor reproductor) throws IOException, ClassNotFoundException {
-        if (!historialRehacer.isEmpty()) {
-            Memento memento = historialRehacer.pop();
-            historialDeshacer.push(reproductor.crearMemento());
+        if (!historialRehacer.estaVacia()) {
+            Memento memento = historialRehacer.quitar();
+            historialDeshacer.insertar(reproductor.crearMemento());
             reproductor.restaurarDesdeMemento(memento.deepCopy());
             System.out.println("Rehaciendo la última acción.");
         } else {

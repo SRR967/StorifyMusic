@@ -1,14 +1,20 @@
 package model;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import serializacion.Persistencia;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 public class Reproductor implements Serializable {
+    private static volatile Reproductor instance;
 
     private HashMap<String,Usuario> tablaUsuarios = new HashMap<>();
     private HashMap<String,Administrador> tablaAdmin = new HashMap<>();
@@ -16,9 +22,24 @@ public class Reproductor implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Reproductor() {
+    private Reproductor() {
         quemarDatosAdmin();
     }
+
+    public static Reproductor getInstance(){
+        if (instance == null) {
+            synchronized (Reproductor.class) {
+                if (instance == null) {
+                    instance = Persistencia.deserializar();
+                    if (instance == null) {
+                        instance = new Reproductor();
+                    }
+                }
+            }
+        }
+        return instance;
+    }
+
 
     private void quemarDatosAdmin() {
         // TODO Auto-generated method stub
@@ -83,11 +104,10 @@ public class Reproductor implements Serializable {
             return true;
         } else if (!(arbolArtista.existe(arbolArtista.getRaiz(), art)) && !existeNombreArtista(arbolArtista,nombre) ) {
             arbolArtista.insertar(art);
-            System.out.println("Se inserto el artista");
 
             return true;
         } else {
-            System.out.println("Artista ya existe");
+            //System.out.println("Artista ya existe");
             return false;
         }
 
@@ -252,9 +272,6 @@ public class Reproductor implements Serializable {
         return tablaUsuarios;
     }
 
-    public void setTablaUsuarios(HashMap<String, Usuario> tablaUsuarios) {
-        this.tablaUsuarios = tablaUsuarios;
-    }
 
     public HashMap<String, Administrador> getTablaAdmin() {
         return tablaAdmin;
@@ -268,7 +285,18 @@ public class Reproductor implements Serializable {
         return arbolArtista;
     }
 
-    public void setArbolArtista(ArbolBinario<Artista> arbolArtista) {
-        this.arbolArtista = arbolArtista;
+    private boolean mostrarMensajeInformacion(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Informacion");
+        alert.setContentText(mensaje);
+        Optional<ButtonType> action = alert.showAndWait();
+
+        if (action.get() == ButtonType.OK) {
+            return true;
+        } else {
+            return false;
+        }
     }
+
 }

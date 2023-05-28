@@ -28,7 +28,6 @@ public class Persistencia {
              ObjectInputStream objIn = new ObjectInputStream(fileIn)) {
 
             Reproductor deserializedObj = (Reproductor) objIn.readObject();
-            System.out.println("Objeto deserializado correctamente");
             return deserializedObj;
 
 

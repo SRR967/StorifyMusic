@@ -35,8 +35,6 @@ public class UsuarioVistaController {
     private Usuario userName;
     private Cancion cancionSeleccionadaTodas;
     private Cancion cancionSeleccionadaMias;
-    private Boolean busquedaO= false;
-    private Boolean busquedaY= false;
 
     private ObservableList<Cancion> listaCancionesArtistas= FXCollections.observableArrayList();
     private ObservableList<Cancion> listaCancionesUsuario= FXCollections.observableArrayList();
@@ -59,6 +57,9 @@ public class UsuarioVistaController {
 
     @FXML
     private TableColumn<String,Cancion> colArtistaTodas;
+
+    @FXML
+    private TableColumn<Cancion,String> colGeneroTodas;
 
     @FXML
     private TableColumn<Cancion,String> colArtistaUsuario;
@@ -84,9 +85,6 @@ public class UsuarioVistaController {
     @FXML
     private ComboBox<String> cmbOrdenar;
 
-    @FXML
-    private ComboBox<String> cmbBusqueda;
-
 
     @FXML
     private Label lblCancion;
@@ -111,10 +109,7 @@ public class UsuarioVistaController {
 
         this.aplicacion = aplicacion;
         lblUsuario.setText(userName.getUserName());
-        lblCancion.setText("");
-        lblAlbum.setText("");
-        lblArtista.setText("");
-        lblDuracion.setText("");
+        actualizarLabel();
 
         //llenar tabla canciones de la tienda
         tblCancionesTodas.getItems().clear();
@@ -141,21 +136,23 @@ public class UsuarioVistaController {
         colTituloTodas.setCellValueFactory(new PropertyValueFactory<>("nombreCancion"));
         colArtistaTodas.setCellValueFactory(new PropertyValueFactory<>("artista"));
         colAlbumTodas.setCellValueFactory(new PropertyValueFactory<>("nombreAlbum"));
+        colDuracionTodas.setCellValueFactory(new PropertyValueFactory<>("duracion"));
+        colGeneroTodas.setCellValueFactory(new PropertyValueFactory<>("genero"));
         tblCancionesTodas.setItems(listaCancionesArtistas);
 
         tblCancionesTodas.getSelectionModel().selectedItemProperty()
                 .addListener((obs, oldSelection, newSelection) -> {
                     cancionSeleccionadaTodas = newSelection;
-                    /*
-                    lblCancion.setText(cancionSeleccionadaTodas.getNombreCancion());
-                    lblAlbum.setText(cancionSeleccionadaTodas.getNombreAlbum());
-                    lblArtista.setText(cancionSeleccionadaTodas.getArtista());
-                    lblDuracion.setText(cancionSeleccionadaTodas.getDuracion());
-                    Image image = new Image(cancionSeleccionadaTodas.getCaratula());
-                    imgCaratula.setImage(image);
+                    if (cancionSeleccionadaTodas!=null) {
+                        lblCancion.setText(cancionSeleccionadaTodas.getNombreCancion());
+                        lblAlbum.setText(cancionSeleccionadaTodas.getNombreAlbum());
+                        lblArtista.setText(cancionSeleccionadaTodas.getArtista());
+                        lblDuracion.setText(cancionSeleccionadaTodas.getDuracion());
+                        Image image = new Image(cancionSeleccionadaTodas.getCaratula());
+                        imgCaratula.setImage(image);
 
+                    }
 
-                     */
                 });
 
 
@@ -165,83 +162,23 @@ public class UsuarioVistaController {
 
         // 2. Set the filter Predicate whenever the filter changes.
         txtBuscarCancion.textProperty().addListener((observable, oldValue, newValue) -> {
-            Platform.runLater(() -> {
-            System.out.println("Texto ingresado: " + newValue);
             tblCancionesTodas.getSelectionModel().clearSelection();
+            Platform.runLater(() -> {
             filteredCancionData.setPredicate(cancion -> {
                 // If filter text is empty, display all persons.
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
 
-                // Dividir el filtro de texto en palabras clave individuales
-                String[] keywords = newValue.toLowerCase().split("-");
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+                boolean nombreMatch = cancion.getNombreCancion().toLowerCase().contains(lowerCaseFilter);
+                boolean artistaMatch = cancion.getArtista().toLowerCase().contains(lowerCaseFilter);
+                boolean generoMatch = cancion.getGenero().getName().contains(lowerCaseFilter);
+                boolean albumMatch = cancion.getNombreAlbum().toLowerCase().contains(lowerCaseFilter);
 
-                if (busquedaO){
+                return nombreMatch || artistaMatch || generoMatch || albumMatch;
 
-                    for (String keyword : keywords) {
-                        boolean nombreMatch = cancion.getNombreCancion().toLowerCase().contains(keyword);
-                        boolean artistaMatch = cancion.getArtista().toLowerCase().contains(keyword);
-                        boolean generoMatch = cancion.getGenero().getName().contains(keyword);
-                        boolean albumMatch = cancion.getNombreAlbum().toLowerCase().contains(keyword);
-
-                        if (nombreMatch || artistaMatch || generoMatch || albumMatch) {
-                            System.out.println("Busqeuda O");
-                            return true;
-                        }
-                    }
-
-                }else if (busquedaY){
-                    for (String keyword : keywords) {
-                        // Definir las combinaciones de atributos para la búsqueda Y
-                        boolean nombreArtistaMatch = cancion.getNombreCancion().toLowerCase().contains(keyword) &&
-                                cancion.getArtista().toLowerCase().contains(keyword);
-                        boolean nombreAlbumMatch = cancion.getNombreCancion().toLowerCase().contains(keyword) &&
-                                cancion.getNombreAlbum().toLowerCase().contains(keyword);
-                        boolean nombreGeneroMatch = cancion.getNombreCancion().toLowerCase().contains(keyword) &&
-                                cancion.getGenero().getName().contains(keyword);
-                        boolean artistaGeneroMatch = cancion.getArtista().toLowerCase().contains(keyword) &&
-                                cancion.getGenero().getName().contains(keyword);
-                        boolean artistaAlbumMatch = cancion.getArtista().toLowerCase().contains(keyword) &&
-                                cancion.getNombreAlbum().toLowerCase().contains(keyword);
-                        boolean generoAlbumMatch = cancion.getGenero().getName().contains(keyword) &&
-                                cancion.getNombreAlbum().toLowerCase().contains(keyword);
-                        boolean nombreArtistaGeneroMatch = cancion.getNombreCancion().toLowerCase().contains(keyword) &&
-                                cancion.getArtista().toLowerCase().contains(keyword) &&
-                                cancion.getGenero().getName().contains(keyword);
-                        boolean nombreArtistaAlbumMatch = cancion.getNombreCancion().toLowerCase().contains(keyword) &&
-                                cancion.getArtista().toLowerCase().contains(keyword) &&
-                                cancion.getNombreAlbum().toLowerCase().contains(keyword);
-                        boolean artistaGeneroAlbumMatch = cancion.getArtista().toLowerCase().contains(keyword) &&
-                                cancion.getGenero().getName().contains(keyword) &&
-                                cancion.getNombreAlbum().toLowerCase().contains(keyword);
-                        boolean generoAlbumNombreMatch = cancion.getGenero().getName().contains(keyword) &&
-                                cancion.getNombreAlbum().toLowerCase().contains(keyword) &&
-                                cancion.getNombreCancion().toLowerCase().contains(keyword);
-
-                        if (!(nombreArtistaMatch || nombreAlbumMatch || nombreGeneroMatch || artistaGeneroMatch ||
-                                artistaAlbumMatch || generoAlbumMatch || nombreArtistaGeneroMatch ||
-                                nombreArtistaAlbumMatch || artistaGeneroAlbumMatch || generoAlbumNombreMatch)) {
-                            System.out.println("Busqueda Y");
-                            return false;
-                        }
-                    }
-                    System.out.println("Busqueda Y");
-                    return true;
-                }else{
-
-                    // Compare first name and last name of every person with filter text.
-                    String lowerCaseFilter = newValue.toLowerCase();
-
-                    boolean nombreMatch = cancion.getNombreCancion().toLowerCase().contains(lowerCaseFilter);
-
-                    boolean artistaMatch = cancion.getArtista().toLowerCase().contains(lowerCaseFilter);
-                    boolean generoMatch = cancion.getGenero().getName().contains(lowerCaseFilter);
-                    boolean albumMatch = cancion.getNombreAlbum().toLowerCase().contains(lowerCaseFilter);
-
-                    return nombreMatch || artistaMatch || generoMatch || albumMatch;
-                }
-                return false;
             });
             });
         });
@@ -260,13 +197,17 @@ public class UsuarioVistaController {
         tblCancionesUsuario.getSelectionModel().selectedItemProperty()
                 .addListener((obs, oldSelection, newSelection) -> {
                     cancionSeleccionadaMias = newSelection;
-                    lblCancion.setText(cancionSeleccionadaMias.getNombreCancion());
-                    lblAlbum.setText(cancionSeleccionadaMias.getNombreAlbum());
-                    lblArtista.setText(cancionSeleccionadaMias.getArtista());
-                    lblDuracion.setText(cancionSeleccionadaMias.getDuracion());
-                    Image image = new Image(cancionSeleccionadaMias.getCaratula());
-                    imgCaratula.setImage(image);
+                    if (cancionSeleccionadaMias!=null){
+                        lblCancion.setText(cancionSeleccionadaMias.getNombreCancion());
+                        lblAlbum.setText(cancionSeleccionadaMias.getNombreAlbum());
+                        lblArtista.setText(cancionSeleccionadaMias.getArtista());
+                        lblDuracion.setText(cancionSeleccionadaMias.getDuracion());
+                        Image image = new Image(cancionSeleccionadaMias.getCaratula());
+                        imgCaratula.setImage(image);
 
+                    }else {
+                        actualizarLabel();
+                    }
                 });
 
         //Agregar elementos al comboBox
@@ -291,29 +232,6 @@ public class UsuarioVistaController {
                     ordenarListaPorAlbum();
                 }else if(newValue.equals("Por genero")){
                     ordenarPorGenero();
-                }
-            }
-        });
-
-        ObservableList<String> items1 = cmbBusqueda.getItems();
-
-        items1.add("");
-        items1.add("Busqueda O");
-        items1.add("Busqueda Y");
-
-        // Agregar un ChangeListener al ComboBox
-        cmbOrdenar.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (newValue.equals("Busqueda Y")){
-                    busquedaY=true;
-                    busquedaO= false;
-                }else if (newValue.equals("Busqueda O")){
-                    busquedaO = true;
-                    busquedaY= false;
-                }else{
-                    busquedaO = false;
-                    busquedaY= false;
                 }
             }
         });
@@ -352,27 +270,8 @@ public class UsuarioVistaController {
         }else if (cancionSeleccionadaMias != null){
             reproducirVideo(cancionSeleccionadaMias);
         }else {
-            System.out.println("No se selecciono ningun video");
+            //System.out.println("No se selecciono ningun video");
         }
-
-
-
-
-        /*
-        if (cancionSeleccionadaTodas!= null){
-            YoutubePlayer youtubePlayer = new YoutubePlayer(cancionSeleccionadaTodas.getURL());
-            Stage stage = new Stage();
-            youtubePlayer.start(stage);
-        }else if (cancionSeleccionadaMias!= null){
-            YoutubePlayer youtubePlayer = new YoutubePlayer(cancionSeleccionadaMias.getURL());
-            Stage stage = new Stage();
-            youtubePlayer.start(stage);
-        }else {
-            System.out.println("No hay cancion seleccionada");
-        }
-
-         */
-
     }
 
     private void reproducirVideo(Cancion cancion){
@@ -405,16 +304,19 @@ public class UsuarioVistaController {
     public void agregarCancionUsuario(ActionEvent event) throws IOException, ClassNotFoundException {
         if (cancionSeleccionadaTodas != null) {
             aplicacion.agregarCancionListaUser(userName, cancionSeleccionadaTodas);
+            cancionSeleccionadaTodas=null;
             actualizarTablaMiLista();
         } else {
-            System.out.println("Ninguna cancion ha sido seleccionada");
+            //System.out.println("Ninguna cancion ha sido seleccionada");
         }
     }
 
     @FXML
     public void eliminarCancionUsuario(ActionEvent event) throws IOException, ClassNotFoundException {
         if (cancionSeleccionadaMias != null) {
+            actualizarLabel();
             aplicacion.eliminarCancionUser(userName, cancionSeleccionadaMias);
+            cancionSeleccionadaMias=null;
             actualizarTablaMiLista();
         } else {
             System.out.println("Ninguna cancion ha sido seleccionada");
@@ -464,8 +366,16 @@ public class UsuarioVistaController {
                 currentNode = currentNode.getSiguiente();
             }while (currentNode != listaCanciones.getNodoPrimero());
         }else {
-            System.out.println("NO hay canciones del usuario");
+            //System.out.println("NO hay canciones del usuario");
         }
+    }
+
+    private void actualizarLabel(){
+        lblDuracion.setText("");
+        lblArtista.setText("");
+        lblAlbum.setText("");
+        lblCancion.setText("");
+        imgCaratula.setImage(null);
     }
 
     private void actualizarTablaMiLista() {

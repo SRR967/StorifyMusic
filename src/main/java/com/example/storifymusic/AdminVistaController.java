@@ -8,6 +8,8 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -21,6 +23,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class AdminVistaController {
@@ -156,12 +159,14 @@ public class AdminVistaController {
             }
         }
 
+        String mensaje="Genero mas popular\n";
         // Imprimir el recuento de géneros
         for (Map.Entry<String, Integer> entry : recuentoGeneros.entrySet()) {
             String genero = entry.getKey();
             int contador = entry.getValue();
-            System.out.println("Género: " + genero + ", Cantidad: " + contador);
+            mensaje+="Genero: "+genero+" cantidad: "+contador+"\n";
         }
+        mostrarMensajeInformacion(mensaje);
 
     }
 
@@ -296,5 +301,19 @@ public class AdminVistaController {
     @FXML
     void devolver (ActionEvent event) throws IOException {
         aplicacion.devolverLogin();
+    }
+
+    private boolean mostrarMensajeInformacion(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Informacion");
+        alert.setContentText(mensaje);
+        Optional<ButtonType> action = alert.showAndWait();
+
+        if (action.get() == ButtonType.OK) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

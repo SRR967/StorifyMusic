@@ -27,7 +27,7 @@ public class Usuario implements Serializable {
             mostrarMensajeError("Está cancion ya se encuentra en la lista");
         }else {
             listaCanciones.agregarFinal(cancion);
-            mostrarMensajeError("Se agregó la cancion");
+            mostrarMensajeInformacion("Se agregó la cancion");
 
         }
 
