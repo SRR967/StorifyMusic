@@ -1,31 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.storifymusic.CrearCancionVistaController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.storifymusic.CrearCancionVistaController">
    <children>
       <Pane layoutX="361.0" layoutY="-6.0" prefHeight="406.0" prefWidth="239.0">
          <children>
-            <RadioButton fx:id="opRock" layoutX="14.0" layoutY="134.0" mnemonicParsing="false" text="Rock">
+            <RadioButton fx:id="opRock" layoutX="14.0" layoutY="134.0" mnemonicParsing="false" style="-fx-background-color: &quot;00E364&quot;;" text="Rock">
                <toggleGroup>
                   <ToggleGroup fx:id="tipoCancion" />
                </toggleGroup></RadioButton>
-            <RadioButton fx:id="opPop" layoutX="14.0" layoutY="161.0" mnemonicParsing="false" text="Pop" toggleGroup="$tipoCancion" />
-            <RadioButton fx:id="opPunk" layoutX="14.0" layoutY="186.0" mnemonicParsing="false" text="Punk" toggleGroup="$tipoCancion" />
-            <RadioButton fx:id="opReggaeton" layoutX="14.0" layoutY="214.0" mnemonicParsing="false" text="Reggaeton" toggleGroup="$tipoCancion" />
-            <RadioButton fx:id="opElectronica" layoutX="14.0" layoutY="239.0" mnemonicParsing="false" text="Electronica" toggleGroup="$tipoCancion" />
+            <RadioButton fx:id="opPop" layoutX="14.0" layoutY="161.0" mnemonicParsing="false" style="-fx-background-color: &quot;00E364&quot;;" text="Pop" toggleGroup="$tipoCancion" />
+            <RadioButton fx:id="opPunk" layoutX="14.0" layoutY="186.0" mnemonicParsing="false" style="-fx-background-color: &quot;00E364&quot;;" text="Punk" toggleGroup="$tipoCancion" />
+            <RadioButton fx:id="opReggaeton" layoutX="14.0" layoutY="214.0" mnemonicParsing="false" style="-fx-background-color: &quot;00E364&quot;;" text="Reggaeton" toggleGroup="$tipoCancion" />
+            <RadioButton fx:id="opElectronica" layoutX="14.0" layoutY="239.0" mnemonicParsing="false" style="-fx-background-color: &quot;00E364&quot;;" text="Electronica" toggleGroup="$tipoCancion" />
+            <Button layoutX="-23.0" layoutY="350.0" mnemonicParsing="false" onAction="#devolver" style="-fx-background-color: &quot;00E364&quot;;" text="Atras" />
+            <Pane layoutX="85.0" layoutY="267.0" prefHeight="118.0" prefWidth="123.0">
+               <children>
+                  <ImageView fitHeight="146.0" fitWidth="200.0" layoutX="-38.0" layoutY="-14.0">
+                     <image>
+                        <Image url="@../../../imagenes/Spotify-Logo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
          </children>
       </Pane>
-      <Label layoutX="72.0" layoutY="71.0" text="Crear Cancion" />
-      <ComboBox fx:id="cmbArtista" layoutX="71.0" layoutY="124.0" prefWidth="150.0" />
+      <Label layoutX="58.0" layoutY="41.0" text="Crear Cancion" textFill="WHITE">
+         <font>
+            <Font name="Al Bayan Plain" size="36.0" />
+         </font></Label>
+      <ComboBox fx:id="cmbArtista" layoutX="71.0" layoutY="124.0" prefWidth="150.0" style="-fx-background-color: &quot;00E364&quot;;" />
       <TextField fx:id="txtNombre" layoutX="72.0" layoutY="163.0" promptText="Nombre" />
       <TextField fx:id="txtCodigo" layoutX="73.0" layoutY="197.0" promptText="Codigo" />
       <TextField fx:id="txtNombreAlbum" layoutX="73.0" layoutY="233.0" promptText="Nombre Album" />
       <TextField fx:id="txtAnio" layoutX="73.0" layoutY="268.0" promptText="Año" />
       <TextField fx:id="txtDuracion" layoutX="73.0" layoutY="304.0" promptText="Duracion" />
       <TextField fx:id="txtUrl" layoutX="73.0" layoutY="344.0" promptText="URL" />
-      <Button fx:id="crearCancion" layoutX="248.0" layoutY="344.0" mnemonicParsing="false" onAction="#crearCancion" text="Agregar" />
-      <Button layoutX="307.0" layoutY="344.0" mnemonicParsing="false" onAction="#devolver" text="Atras" />
+      <Button fx:id="crearCancion" layoutX="248.0" layoutY="344.0" mnemonicParsing="false" onAction="#crearCancion" style="-fx-background-color: &quot;00E364&quot;;" text="Agregar" />
    </children>
 </AnchorPane>

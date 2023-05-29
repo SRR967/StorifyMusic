@@ -21,28 +21,35 @@ public class Usuario implements Serializable {
         this.email = email;
     }
 
-    public void agregarCancionLista(Cancion cancion){
+    /**
+     * Agrega una canción a la lista de reproducción del usuario.
+     *
+     * @param cancion la canción a agregar
+     */
+    public void agregarCancionLista(Cancion cancion) {
         int posicion = listaCanciones.buscar(cancion);
-        if (posicion !=-1){
-            mostrarMensajeError("Está cancion ya se encuentra en la lista");
-        }else {
+        if (posicion != -1) {
+            mostrarMensajeError("Esta canción ya se encuentra en la lista");
+        } else {
             listaCanciones.agregarFinal(cancion);
-            mostrarMensajeInformacion("Se agregó la cancion");
-
+            mostrarMensajeInformacion("Se agregó la canción");
         }
-
     }
 
-    public void eliminarCancionLista(Cancion cancion){
+    /**
+     * Elimina una canción de la lista de reproducción del usuario.
+     *
+     * @param cancion la canción a eliminar
+     */
+    public void eliminarCancionLista(Cancion cancion) {
         listaCanciones.eliminar(cancion);
-        mostrarMensajeInformacion("La cancion fue eliminada");
-
+        mostrarMensajeInformacion("La canción fue eliminada");
     }
 
     private boolean mostrarMensajeInformacion(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
-        alert.setTitle("Informacion");
+        alert.setTitle("Información");
         alert.setContentText(mensaje);
         Optional<ButtonType> action = alert.showAndWait();
 
@@ -56,7 +63,7 @@ public class Usuario implements Serializable {
     private boolean mostrarMensajeError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
-        alert.setTitle("Confirmacion");
+        alert.setTitle("Confirmación");
         alert.setContentText(mensaje);
         Optional<ButtonType> action = alert.showAndWait();
 
@@ -66,6 +73,8 @@ public class Usuario implements Serializable {
             return false;
         }
     }
+
+    // Getters y setters
 
     public String getUserName() {
         return userName;
@@ -99,3 +108,4 @@ public class Usuario implements Serializable {
         this.listaCanciones = listaCanciones;
     }
 }
+

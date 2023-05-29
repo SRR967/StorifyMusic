@@ -32,7 +32,6 @@ public class Persistencia {
 
 
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
         }
         return  null;
 

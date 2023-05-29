@@ -4,17 +4,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.storifymusic.AdminVistaController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.storifymusic.AdminVistaController">
    <children>
-      <Button layoutX="148.0" layoutY="15.0" mnemonicParsing="false" onAction="#devolver" text="Atras" />
-      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" text="Administrador">
+      <Button layoutX="337.0" layoutY="19.0" mnemonicParsing="false" onAction="#devolver" style="-fx-background-color: &quot;00E364&quot;;" text="Atras" />
+      <Label alignment="CENTER" layoutX="14.0" layoutY="-1.0" text="Administrador" textFill="#fffdfd">
          <font>
-            <Font size="19.0" />
+            <Font size="48.0" />
          </font>
       </Label>
-      <Button layoutX="268.0" layoutY="265.0" mnemonicParsing="false" onAction="#crearArtista" text="Crear artista" />
-      <Button layoutX="148.0" layoutY="265.0" mnemonicParsing="false" onAction="#crearCancion" text="Agregar Cancion" />
-      <TableView fx:id="tblArtistas" layoutX="14.0" layoutY="56.0" prefHeight="200.0" prefWidth="306.0">
+      <Button layoutX="426.0" layoutY="300.0" mnemonicParsing="false" onAction="#crearArtista" style="-fx-background-color: &quot;00E364&quot;;" text="Crear artista" />
+      <Button layoutX="298.0" layoutY="300.0" mnemonicParsing="false" onAction="#crearCancion" style="-fx-background-color: &quot;00E364&quot;;" text="Agregar Cancion" />
+      <TableView fx:id="tblArtistas" layoutX="14.0" layoutY="56.0" prefHeight="200.0" prefWidth="306.0" style="-fx-background-color: &quot;00E364&quot;;">
         <columns>
           <TableColumn fx:id="colCodigo" prefWidth="75.0" text="Codigo" />
           <TableColumn fx:id="colNombre" prefWidth="75.0" text="Nombre" />
@@ -22,8 +22,8 @@
             <TableColumn fx:id="colGrupo" prefWidth="75.0" text="IsGrupo" />
         </columns>
       </TableView>
-      <Button layoutX="48.0" layoutY="265.0" mnemonicParsing="false" onAction="#subirArchivo" text="Subir archivo" />
-      <TableView fx:id="tblCanciones" layoutX="337.0" layoutY="56.0" prefHeight="200.0" prefWidth="468.0">
+      <Button layoutX="195.0" layoutY="300.0" mnemonicParsing="false" onAction="#subirArchivo" style="-fx-background-color: &quot;00E364&quot;;" text="Subir archivo" />
+      <TableView fx:id="tblCanciones" layoutX="337.0" layoutY="56.0" prefHeight="200.0" prefWidth="468.0" style="-fx-background-color: &quot;00E364&quot;;">
         <columns>
           <TableColumn fx:id="colCodigoCancion" prefWidth="75.0" text="Codigo" />
           <TableColumn fx:id="colNombreCancion" prefWidth="75.0" text="Cancion" />
@@ -34,7 +34,7 @@
             <TableColumn fx:id="colArtistaCancion" prefWidth="75.0" text="Artista" />
         </columns>
       </TableView>
-      <Button layoutX="61.0" layoutY="306.0" mnemonicParsing="false" onAction="#generoPopular" text="Generos populares" />
-      <Button layoutX="215.0" layoutY="15.0" mnemonicParsing="false" onAction="#administrarUsuarios" text="Administrar Usuario" />
+      <Button layoutX="293.0" layoutY="340.0" mnemonicParsing="false" onAction="#generoPopular" style="-fx-background-color: &quot;00E364&quot;;" text="Generos populares" />
+      <Button layoutX="395.0" layoutY="19.0" mnemonicParsing="false" onAction="#administrarUsuarios" style="-fx-background-color: &quot;00E364&quot;;" text="Administrar Usuario" />
    </children>
 </AnchorPane>

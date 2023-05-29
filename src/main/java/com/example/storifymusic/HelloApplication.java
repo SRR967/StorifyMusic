@@ -258,7 +258,7 @@ public class HelloApplication extends Application {
     }
 
     public Artista getArtistaNombre(ArbolBinario<Artista> arbol, String nombre){
-        return reproductor.getArtista(arbol,nombre);
+        return reproductor.buscarArtista(nombre,arbol);
     }
 
     public boolean getExisteCodigo(String codigo){

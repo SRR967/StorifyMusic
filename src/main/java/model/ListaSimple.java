@@ -2,6 +2,11 @@ package model;
 
 import java.io.Serializable;
 
+/**
+ * Clase que representa una lista enlazada simple.
+ *
+ * @param <T> el tipo de dato de los elementos de la lista.
+ */
 public class ListaSimple<T> implements Serializable {
 
     private NodoLista<T> nodoPrimero;
@@ -10,36 +15,45 @@ public class ListaSimple<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Constructor de la clase ListaSimple.
+     * Inicializa la lista vacía.
+     */
     public ListaSimple() {
         nodoUltimo = null;
         nodoPrimero = null;
         tamanio = 0;
     }
-    //Agregar al inicio de la lista
-    public void agregarInicio(T valorNodo) {
 
+    /**
+     * Agrega un nuevo elemento al inicio de la lista.
+     *
+     * @param valorNodo el valor del elemento a agregar.
+     */
+    public void agregarInicio(T valorNodo) {
         NodoLista<T> nuevoNodo = new NodoLista<>(valorNodo);
 
-        if(estaVacia())
-        {
+        if (estaVacia()) {
             nodoPrimero = nuevoNodo;
-        }
-        else
-        {
+        } else {
             nuevoNodo.setSiguiente(nodoPrimero);
             nodoPrimero = nuevoNodo;
         }
+
         tamanio++;
     }
 
-    //Agregar al final de la lista
-    public void agregarfinal(T valorNodo) {
-
+    /**
+     * Agrega un nuevo elemento al final de la lista.
+     *
+     * @param valorNodo el valor del elemento a agregar.
+     */
+    public void agregarFinal(T valorNodo) {
         NodoLista<T> nodo = new NodoLista<>(valorNodo);
 
-        if( estaVacia() ) {
+        if (estaVacia()) {
             nodoPrimero = nodoUltimo = nodo;
-        }else {
+        } else {
             nodoUltimo.setSiguiente(nodo);
             nodoUltimo = nodo;
         }
@@ -47,70 +61,84 @@ public class ListaSimple<T> implements Serializable {
         tamanio++;
     }
 
-    //Obtener Nodo el valor de un Nodo
+    /**
+     * Obtiene el valor de un nodo en la posición especificada.
+     *
+     * @param indice la posición del nodo.
+     * @return el valor del nodo en la posición especificada, o null si el índice es inválido.
+     */
     public T obtenerValorNodo(int indice) {
-
         NodoLista<T> nodoTemporal = null;
         int contador = 0;
 
-        if(indiceValido(indice))
-        {
+        if (indiceValido(indice)) {
             nodoTemporal = nodoPrimero;
 
             while (contador < indice) {
-
                 nodoTemporal = nodoTemporal.getSiguiente();
                 contador++;
             }
         }
 
-        if(nodoTemporal != null)
+        if (nodoTemporal != null)
             return nodoTemporal.getDato();
         else
             return null;
     }
 
-
-    //Verificar si indice es valido
+    /**
+     * Verifica si un índice es válido.
+     *
+     * @param indice el índice a verificar.
+     * @return true si el índice es válido, false de lo contrario.
+     * @throws RuntimeException si el índice no es válido.
+     */
     private boolean indiceValido(int indice) {
-        if( indice>=0 && indice<tamanio ) {
+        if (indice >= 0 && indice < tamanio) {
             return true;
         }
         throw new RuntimeException("Índice no válido");
     }
 
-
-    //Verificar si la lista esta vacia
+    /**
+     * Verifica si la lista está vacía.
+     *
+     * @return true si la lista está vacía, false de lo contrario.
+     */
     public boolean estaVacia() {
         return nodoPrimero == null;
     }
 
-
     /**
-     * Imprime en consola la lista enlazada
+     * Imprime en consola la lista enlazada.
      */
     public void imprimirLista() {
-
         NodoLista<T> aux = nodoPrimero;
 
-        while(aux!=null) {
-            System.out.print( aux.getDato()+"\t" );
+        while (aux != null) {
+            System.out.print(aux.getDato() + "\t");
             aux = aux.getSiguiente();
         }
 
         System.out.println();
     }
 
-    //Eliminar dado el valor de un nodo
-    public T eliminar(T dato){
+    /**
+     * Elimina un nodo con el valor especificado de la lista.
+     *
+     * @param dato el valor del nodo a eliminar.
+     * @return el valor del nodo eliminado.
+     * @throws RuntimeException si el elemento no existe en la lista.
+     */
+    public T eliminar(T dato) {
         NodoLista<T> nodo = nodoPrimero;
         NodoLista<T> previo = null;
         NodoLista<T> siguiente = null;
         boolean encontrado = false;
 
-        //buscar el nodo previo
-        while(nodo!=null) {
-            if( nodo.getDato() == dato ) {
+        // buscar el nodo previo
+        while (nodo != null) {
+            if (nodo.getDato() == dato) {
                 encontrado = true;
                 break;
             }
@@ -118,17 +146,17 @@ public class ListaSimple<T> implements Serializable {
             nodo = nodo.getSiguiente();
         }
 
-        if(encontrado) {
+        if (encontrado) {
             siguiente = nodo.getSiguiente();
-            if( previo==null ) {
+            if (previo == null) {
                 nodoPrimero = siguiente;
-            }else {
+            } else {
                 previo.setSiguiente(siguiente);
             }
 
-            if(siguiente==null) {
-//				nodoUltimo = previo;
-            }else {
+            if (siguiente == null) {
+                // nodoUltimo = previo;
+            } else {
                 nodo.setSiguiente(null);
             }
 
@@ -139,17 +167,20 @@ public class ListaSimple<T> implements Serializable {
         throw new RuntimeException("El elemento no existe");
     }
 
-
-    //Elimina el primer nodo de la lista
+    /**
+     * Elimina el primer nodo de la lista.
+     *
+     * @return el valor del nodo eliminado.
+     * @throws RuntimeException si la lista está vacía.
+     */
     public T eliminarPrimero() {
-
-        if( !estaVacia() ) {
+        if (!estaVacia()) {
             NodoLista<T> n = nodoPrimero;
             T valor = n.getDato();
             nodoPrimero = n.getSiguiente();
 
-            if(nodoPrimero==null) {
-//				nodoUltimo = null;
+            if (nodoPrimero == null) {
+                // nodoUltimo = null;
             }
 
             tamanio--;
@@ -159,11 +190,8 @@ public class ListaSimple<T> implements Serializable {
         throw new RuntimeException("Lista vacía");
     }
 
-
     private NodoLista<T> obtenerNodo(int indice) {
-
-        if(indice>=0 && indice<tamanio) {
-
+        if (indice >= 0 && indice < tamanio) {
             NodoLista<T> nodo = nodoPrimero;
 
             for (int i = 0; i < indice; i++) {
@@ -176,33 +204,30 @@ public class ListaSimple<T> implements Serializable {
         return null;
     }
 
-
     /**
-     * Cambia el valor de un nodo dada su posición en la lista
-     * @param indice posición donde se va a cambiar el dato
-     * @param nuevo nuevo valor por el que se actualizará el nodo
+     * Modifica el valor de un nodo en la posición especificada.
+     *
+     * @param indice la posición del nodo.
+     * @param nuevo  el nuevo valor del nodo.
      */
     public void modificarNodo(int indice, T nuevo) {
-
-        if( indiceValido(indice) ) {
+        if (indiceValido(indice)) {
             NodoLista<T> nodo = obtenerNodo(indice);
             nodo.setDato(nuevo);
         }
-
     }
 
-
     /**
-     * Retorna la primera posición donde está guardado el dato
-     * @param dato valor a buscar dentro de la lista
-     * @return primera posición del dato
+     * Retorna la primera posición donde está guardado el dato.
+     *
+     * @param dato el valor a buscar dentro de la lista.
+     * @return la primera posición del dato, o -1 si no se encuentra en la lista.
      */
     public int obtenerPosicionNodo(T dato) {
-
         int i = 0;
 
-        for( NodoLista<T> aux = nodoPrimero ; aux!=null ; aux = aux.getSiguiente() ) {
-            if( aux.getDato().equals(dato) ) {
+        for (NodoLista<T> aux = nodoPrimero; aux != null; aux = aux.getSiguiente()) {
+            if (aux.getDato().equals(dato)) {
                 return i;
             }
             i++;
